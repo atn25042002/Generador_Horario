@@ -1,12 +1,14 @@
 table {
-    width: 100%;
-    border-collapse: collapse;
+    font-size: 11px;
+    font-family: Consolas,monospace;
 }
 
 th, td {
     border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
+    padding: 2px 2px 2px 2px;
+    text-align: center;    
+    width: auto;
+    height: auto;
 }
 
 th {
