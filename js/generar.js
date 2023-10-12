@@ -41,6 +41,7 @@ var letra = { //Convierte el Turno del curso a número
 
 var cursos= []; // Contiene los cursos registrados
 var posibles= []; // Guarda los posibles horarios
+var restricciones= [];
 var max= 10;
 
 function generarBloques(){
@@ -145,7 +146,6 @@ function actualizar(){
     //Vuelve a llenar
     generarBloques();
     llenarHorario();
-    generarHorarios();
 }
 
 function evaluarCruces(turnos){
@@ -163,28 +163,42 @@ function evaluarCruces(turnos){
     return (canthoras - horasunicas.size);
 }
 
+function evaluarRestricciones(){
+
+}
+
 function generarHorarios(){
+    console.log(posibles);
     console.log("generando horarios");
     let turnos= [];
     let i= 0;
     cursos.forEach(function(curso){
         turnos.push(curso.docente.length - 1);
     })
-    console.log(turnos);
     let arregloGenerado = new Array(turnos.length);
     generarArreglosCumpliendoCondicion(turnos, arregloGenerado, 0);
+    cargarTurnos(posibles[0]);
+}
+
+function cargarTurnos(turnos){
+    let i= 0;
+    turnos.forEach(function(turno){
+        document.getElementById('s-' + i).value= turno;
+        i++;
+    })
+    actualizar();
 }
 
 function generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, indice) {
     if(max <= 0){
+        console.log("Maximo alcanzado");
         return;
     }
 
     if (indice === arregloOriginal.length) {
         let cruces= evaluarCruces(arregloGenerado);
         if(cruces== 0){
-            console.log( cruces + " - " + arregloGenerado);
-            //console.log(arregloGenerado);
+            posibles.push([...arregloGenerado]);
             max--;
             return;
         }        
@@ -200,15 +214,20 @@ function generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, in
 document.addEventListener("DOMContentLoaded", function() {
     cursos.push(new Curso("Metodos Numéricos", ["306","306","306"], [[16,21,26],[43,48,53],[28,33,38]],["Olha","Olha","Olha"], true));
     cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
-    cursos.push(new Curso("Construcción de Software", ["306","306","306","306"], [[6,11],[36,41],[17,22],[47,52]],["Arroyo","Arroyo","Edith","Edith"], true));
+    cursos.push(new Curso("Construcción de Software", ["306","306"], [[2,7],[36,41]],["Arroyo","Arroyo"], true));
     cursos.push(new Curso("Tecnología de objetos", ["306","306","302"], [[54,59,5,10],[71,76,74,79],[72,77,75,80]],["Bornas","Bornas","Sardón"], true));
-    cursos.push(new Curso("Redes", ["205","306","306"], [[28,33,34,39],[57,62,68,73],[67,72,34,39]],["Lucy","Lino","Lino"], true));
+    cursos.push(new Curso("Redes", ["205","306"], [[28,33,34,39],[57,62,68,73]],["Lucy","Lino"], true));
+    cursos.push(new Curso("IDSE", ["205","306"], [[27,32,37],[41,46,51]],["Giovanni","Giovanni"], true));
+    cursos.push(new Curso("Aspectos", ["306","306","302"], [[5,10],[42,47],[31,36]],["Maribel","Maribel","Maribel"], true));
     cursos.push(new Curso("Fundamentos", ["306","306","306"], [[18,23,20,25,30],[58,63,35,40,45],[3,8,13,4,9]],["Juarez","Juarez","Juarez"], true));
-    cursos.push(new Curso("Lab- MN", ["306","306","306", "306"], [[54,59],[63,68],[6,11],[34,39]],["Polanco","Polanco","Polanco","Polanco"], true));
-    cursos.push(new Curso("Lab- CS", ["306","306","306"], [[17,22,23,28],[16,21,7,12],[26,31,27,32]],["Polanco","Polanco","Polanco"], true));
-    cursos.push(new Curso("Lab- SO", ["306","306","306", "306"], [[12,17],[11,16],[48,53],[58,63]],["Polanco","Polanco","Polanco", "Polanco"], true));
+    cursos.push(new Curso("Lab- MN", ["306","306","306", "306"], [[32,37],[64,69],[1,6],[42,47]],["Polanco","Polanco","Polanco","Polanco"], true));
+    cursos.push(new Curso("Lab- CS", ["306","306","306"], [[6,11,12,17],[16,21,33,38],[26,31,27,32]],["Arroyo","Arroyo","Arroyo"], true));
+    cursos.push(new Curso("Lab- SO", ["306","306","306", "306"], [[12,17],[48,53],[11,16],[58,63]],["Aceituno","Aceituno","Aceituno", "Aceituno"], true));
+    cursos.push(new Curso("Lab- Aspectos", ["306","306","306", "306"], [[4,9],[41,46],[51,56],[53,58]],["Maribel","Maribel","Ramiro", "Ramiro"], true));
+    cursos.push(new Curso("Lab Redes", ["306","306"], [[24,29],[56,61]],["Lucy","Lino"], true));
+    cursos.push(new Curso("Lab- TO", ["306","306","306","306", "306"], [[22,27],[56,61],[34,39],[44,49],[24,29]],["Bornas","Bornas","Karen","Karen", "Karen"], true));
+    cursos.push(new Curso("Lab - IDSE", ["205","306","306"], [[18,23],[42,47],[52,57]],["Giovanni","Giovanni","Giovanni"], true));
     generarBloques();
     generarCursos();
     llenarHorario();
-    generarHorarios();
 });

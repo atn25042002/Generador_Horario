@@ -39,7 +39,7 @@ th {
 
 /* Estilo de los divs internos */
 #divHorario{
-    width: auto;
+    width: 100%;
     height: auto;
 }
 
