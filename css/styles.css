@@ -1,3 +1,11 @@
+.titulo{
+    margin: 0 0 0 0;
+}
+
+.subtitulo{
+    margin: 0 0 0 0;
+}
+
 table {
     font-size: 11px;
     font-family: Consolas,monospace;
@@ -17,8 +25,8 @@ th {
 
 .centro {
     width: 100%; /* Ancho del contenedor principal */
-    height: 200px; /* Altura del contenedor principal (puedes ajustarla según tus necesidades) */
-    display: flex; /* Utilizar flexbox para distribuir los divs horizontalmente */
+    height: auto; /* Altura del contenedor principal (puedes ajustarla según tus necesidades) */
+    display: block;  /* Utilizar flexbox para distribuir los divs horizontalmente */
 }
 
 /*#horarioHora{
@@ -30,15 +38,30 @@ th {
 }*/
 
 /* Estilo de los divs internos */
-#col1{
-    width: 75%;
-    height: 400px;
+#divHorario{
+    width: auto;
+    height: auto;
 }
 
-#col2{
-    width: 25%;
+#divTurnos{
+    width: auto;
     padding: 5px 5px 5px 5px;
-    height: 300px;
+    height: auto ;
+}
+
+#turnos{
+    display: table;
+}
+
+.fila{
+    display: table-row;
+    /*display: table-cell;*/
+    padding: 5px
+}
+
+.celda{
+    display: table-cell;
+    margin: 0 20px;
 }
 
 label, select {

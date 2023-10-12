@@ -42,6 +42,7 @@ var letra = {
 var cursos= [];
 
 function generarBloques(){
+    //Genera el horario con dias y horas vacios
     console.log("generado")
     let tableBody = document.querySelector("#horarioTable tbody");
     let sum= 0;
@@ -63,13 +64,17 @@ function generarBloques(){
     });
 }
 
-function generarCursos(){    
-    let lstcursos= document.getElementById("col2");
-    cursos.forEach(function(curso){        
+function generarCursos(){
+    //Carga los cursos registrados con sus turnos
+    let lstcursos= document.getElementById("turnos");
+    let i= 0;
+    cursos.forEach(function(curso){
+        let fila= document.createElement('div');
+        fila.setAttribute('class' , 'fila')    
         let label= document.createElement('label');
         label.textContent= curso.nombre;
         let turnos= document.createElement('select');
-        turnos.setAttribute('id', curso.nombre);
+        turnos.setAttribute('id', "s-" + i);
         turnos.addEventListener("change", function() {
             actualizar();
         });
@@ -78,34 +83,39 @@ function generarCursos(){
             opcion.text= letra[i+1];
             opcion.value= i;
             turnos.appendChild(opcion);
-        }        
-        lstcursos.appendChild(label);
-        lstcursos.appendChild(turnos);
-        lstcursos.append(document.createElement("br"));
+        }
+        let lblprof= document.createElement('label');
+        lblprof.textContent= curso.docente[0];
+        lblprof.setAttribute('id', "p-" + i)
+        label.setAttribute('class', 'celda');
+        turnos.setAttribute('class', 'celda');
+        lblprof.setAttribute('class', 'celda');
+        fila.appendChild(label);
+        fila.appendChild(turnos);
+        fila.appendChild(lblprof);
+
+        lstcursos.appendChild(fila);
+        //lstcursos.append(document.createElement("br"));
+        i++;
     })
 }
 
 function llenarHorario(){
+    //Llena el horario con los cursos y sus turnos seleccionados
     let bloque;
-    /*Object.keys(cursos).forEach(function(curso){
-        cursos[curso].forEach(function(hora){
-            bloque= document.getElementById("hora" + hora);
-            if(bloque.textContent != ""){
-                bloque.style.color="red";
-            }
-            bloque.innerHTML= bloque.innerHTML + curso + "<br>";
-        });
-    });*/
     console.log(cursos);
+    let i= 0;
     cursos.forEach(function(curso){
-        let turno= document.getElementById(curso.nombre).value;
+        let turno= document.getElementById('s-' + i).value;
         curso.horas[turno].forEach(function(hora){
             bloque= document.getElementById("hora" + hora);
             if(bloque.textContent != ""){
                 bloque.style.color="red";
             }
             bloque.innerHTML= bloque.innerHTML + curso.nombre + "(" + curso.aula[turno] + ")" + "<br>";
+            document.getElementById("p-"+i).textContent= curso.docente[turno];
         });
+        i++;
     })
 }
 
