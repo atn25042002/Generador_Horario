@@ -190,8 +190,14 @@ function generarHorarios(){
         window.alert("Horario generado - " + nrohorario);
         return;
     }
-    console.log(posibles);
+    //console.log(posibles);
     //console.log("generando horarios");
+    let overlay = document.getElementById('miOverlay');
+    let modal = document.getElementById('miModal');
+    console.log("Bloqueando");
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+
     let turnos= []; //Crea un arreglo donde se almacenara el numero de turnos disponibles por curso
     cursos.forEach(function(curso){
         //añade como elemento i al arreglo de turno el numero de turnos -1
@@ -201,15 +207,21 @@ function generarHorarios(){
     //crea un array con la misma longitud
     let arregloGenerado = new Array(turnos.length);
     //inicia la funcion recursiva
-    generarArreglosCumpliendoCondicion(turnos, arregloGenerado, 0);
+    setTimeout(function() {
+        hacerCombinaciones(turnos, arregloGenerado, 0); // Oculta el modal cuando se completa el proceso largo
+        console.log("Desbloqueando");
+        overlay.style.display = 'none';
+        modal.style.display = 'none';
+        if(posibles.length==0){
+            window.alert("No esposible generar un horario")
+            return;
+        }
+        cargarTurnos(posibles[0]);
+        nrohorario++;
+        window.alert("Horario generado - " + nrohorario);
+    }, 1000);
     //carga el primer horario posible
-    if(posibles.length==0){
-        window.alert("No esposible generar un horario")
-        return;
-    }
-    cargarTurnos(posibles[0]);
-    nrohorario++;
-    window.alert("Horario generado - " + nrohorario);
+    
 }
 
 function cargarTurnos(turnos){
@@ -222,7 +234,7 @@ function cargarTurnos(turnos){
     actualizar();
 }
 
-function generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, indice) {
+function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
     //Función recursiva que examina cada posible horario
     /*if(max <= 0){
         //Se controla el maximo de horarios
@@ -247,7 +259,7 @@ function generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, in
     for (let i = 0; i <= arregloOriginal[indice]; i++) {
         //Por cada indice prueba las combinaciones posibles
         arregloGenerado[indice] = i;
-        generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, indice + 1);
+        hacerCombinaciones(arregloOriginal, arregloGenerado, indice + 1);
     }
 }
 
@@ -270,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cursos.push(new Curso("Lab - IDSE", ["205","306","306"], [[18,23],[42,47],[52,57]],["Giovanni","Giovanni","Giovanni"], true));
     restricciones[1]= [0,2];
     restricciones[4]= [1];
-    //restricciones[5]= [0];
+    restricciones[3]= [0];
     generarBloques();
     generarCursos();
     llenarHorario();
