@@ -41,9 +41,9 @@ var letra = { //Convierte el Turno del curso a número
 
 var cursos= []; // Contiene los cursos registrados
 var posibles= []; // Guarda los posibles horarios
-var restricciones= {};
-var nrohorario= -1;
-var max= 10;
+var restricciones= {}; //Restricciones de turno
+var nrohorario= -1; //Nro de horario posible
+var max= 20; //Maximo de horarios
 
 function generarBloques(){
     //Genera el horario con dias y horas vacios
@@ -181,10 +181,11 @@ function evaluarHorario(turnos){
 
 function generarHorarios(){
     if(nrohorario >= 0){
-        nrohorario++;
-        if(nrohorario == 10){
+        /*nrohorario++;
+        if(nrohorario == max){
             nrohorario= 0;
-        }
+        }*/
+        nrohorario= Math.floor(Math.random() * (posibles.length));
         cargarTurnos(posibles[nrohorario]);
         window.alert("Horario generado - " + nrohorario);
         return;
@@ -202,6 +203,10 @@ function generarHorarios(){
     //inicia la funcion recursiva
     generarArreglosCumpliendoCondicion(turnos, arregloGenerado, 0);
     //carga el primer horario posible
+    if(posibles.length==0){
+        window.alert("No esposible generar un horario")
+        return;
+    }
     cargarTurnos(posibles[0]);
     nrohorario++;
     window.alert("Horario generado - " + nrohorario);
@@ -219,11 +224,11 @@ function cargarTurnos(turnos){
 
 function generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, indice) {
     //Función recursiva que examina cada posible horario
-    if(max <= 0){
+    /*if(max <= 0){
         //Se controla el maximo de horarios
         console.log("Maximo alcanzado");
         return;
-    }
+    }*/
 
     if (indice === arregloOriginal.length) {
         //Si es que el indice que se varia es igual a la longitud es porque ya se modifico
@@ -234,7 +239,7 @@ function generarArreglosCumpliendoCondicion(arregloOriginal, arregloGenerado, in
             //Si es que no tiene cruces y cumple con los turnos restringidos
             //Lo agrega al arreglo de posibles horarios
             posibles.push([...arregloGenerado]);
-            max--;
+            //max--;
             return;
         }        
     }
@@ -265,6 +270,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cursos.push(new Curso("Lab - IDSE", ["205","306","306"], [[18,23],[42,47],[52,57]],["Giovanni","Giovanni","Giovanni"], true));
     restricciones[1]= [0,2];
     restricciones[4]= [1];
+    //restricciones[5]= [0];
     generarBloques();
     generarCursos();
     llenarHorario();
