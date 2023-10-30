@@ -1,10 +1,10 @@
 class Curso{
     constructor(nombre, aula, horas, docente, prioridad){
-        this.nombre= nombre;
-        this.aula= aula;
-        this.horas= horas;
-        this.docente= docente;
-        this.prioridad= prioridad
+        this.nombre= nombre; //Nombre del curso - string
+        this.aula= aula; //Aulas de los turnos - string[]         A     B     C
+        this.horas= horas; //Horas de los turnos - int[][] ej: [[1,6],[2,5],[3,8]]
+        this.docente= docente; // Docente de cada turno - String[]
+        this.prioridad= prioridad // Si el curso es prioridad - bool[]
     }
 }
 
@@ -39,9 +39,9 @@ var letra = { //Convierte el Turno del curso a número
     9: 'I',
 };
 
-var cursos= []; // Contiene los cursos registrados
-var posibles= []; // Guarda los posibles horarios
-var restricciones= {}; //Restricciones de turno
+var cursos= []; // Contiene los cursos registrados 
+var posibles= []; // Guarda los posibles horarios [[1,2,3] ,[1,1,1]]
+var restricciones= {}; //Restricciones de turno  { 1 : [1,2] }
 var nrohorario= -1; //Nro de horario posible
 var max= 20; //Maximo de horarios
 
@@ -149,21 +149,28 @@ function actualizar(){
     llenarHorario();
 }
 
+//
+//
+//
+//
+//
 function evaluarHorario(turnos){
+    //turnos = turnos propuestos a evaluar ej [0,1,2,3,0,0] -> Turno A , Turno B, ...
     //Evalua que tan bueno es el horario y si cumple con las restricciones
-    let horasllenas=[]; //Horas que tienen asisgnadas un curso
-    let canthoras = 0;
-    let ncursos= cursos.length; //Numero de cursos
+    let horasllenas=[]; //Horas que tienen asignadas un curso int[] Horas ocupadas
+    let canthoras = 0; // int
+    let ncursos= cursos.length; //Numero de cursos - int
     let boolprof= true; //Si es que los requerimientos de docente (turno) se cumplen
+    //boolprof es true por defecto hasta q se demuestre lo contrario
     for(let i= 0; i< ncursos; i++){
-        let turno= turnos[i]; //El turno del curso i
-        let horas= cursos[i].horas[turno]; //Las horas del curso i en el turno
+        let turno= turnos[i]; //El turno del curso i  
+        let horas= cursos[i].horas[turno]; //Las horas del curso i en el turno - int[]
         horasllenas.push(...horas); //Agrega las horas del curso a las horas llenas
         canthoras+= horas.length; //Suma la cantidad de horas necesarias
         if (restricciones[i] && Array.isArray(restricciones[i])) {
             //Vefirica si es que el curso tiene alguna restriccion de turno
             if(!restricciones[i].includes(turno)){
-                //si es que la tiene manda false
+                //Verifica si es que el turno propuesto esta incluido en las restricciones
                 boolprof= false;
                 break;
             }
@@ -176,6 +183,7 @@ function evaluarHorario(turnos){
     //al final retorna un arreglo con dos datos
     //datos[0]: Horas de cruce
     //datos[1]: Bool que indica si es que se cumplen los requisitos del turno
+    //return datos[0] && datos[1]
     return (datos);
 }
 
@@ -234,6 +242,11 @@ function cargarTurnos(turnos){
     actualizar();
 }
 
+//
+//
+//
+//
+//
 function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
     //Función recursiva que examina cada posible horario
     /*if(max <= 0){
@@ -263,6 +276,20 @@ function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
     }
 }
 
+function descargarDatos() {
+    const datosJSON = JSON.stringify(cursos);
+    const blob = new Blob([datosJSON], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+  
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'datos.json'; // Nombre del archivo
+    a.style.display = 'none';
+  
+    document.body.appendChild(a);
+    a.click(); // Activa la descarga
+    document.body.removeChild(a);
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     cursos.push(new Curso("Metodos Numéricos", ["306","306","306"], [[16,21,26],[43,48,53],[28,33,38]],["Olha","Olha","Olha"], true));
