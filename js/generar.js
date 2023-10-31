@@ -45,7 +45,7 @@ var restricciones= {}; //Restricciones de turno  { 1 : [1,2] }
 var nrohorario= -1; //Nro de horario posible
 var max= 20; //Maximo de horarios
 
-function generarBloques(){
+/*function generarBloques(){
     //Genera el horario con dias y horas vacios
     let tableBody = document.querySelector("#horarioTable tbody");
     let sum= 0;
@@ -65,7 +65,7 @@ function generarBloques(){
         tableBody.appendChild(row);
         sum+=5;
     });
-}
+}*/
 
 function generarCursos(){
     //Carga los cursos registrados con sus turnos
