@@ -8,37 +8,6 @@ class Curso{
     }
 }
 
-var intervalosHorarios = [ // Guarda los valores de las horas
-    "7:00 - 7:50",
-    "7:50 - 8:40",
-    "8:50 - 9:40",
-    "9:40 - 10:30",
-    "10:40 - 11:30",
-    "11:30 - 12:20",
-    "12:20  - 1:10",
-    "1:10  - 2:00",
-    "2:00  - 2:50",
-    "2:50  - 3:40",
-    "3:50  - 4:40",
-    "4:40  - 5:30",
-    "5:40  - 6:30",
-    "6:30  - 7:20",
-    "7:20  - 8:10",
-    "8:10  - 9:00"
-];
-
-var letra = { //Convierte el Turno del curso a número
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-    5: 'E',
-    6: 'F',
-    7: 'G',
-    8: 'H',
-    9: 'I',
-};
-
 var cursos= []; // Contiene los cursos registrados 
 var posibles= []; // Guarda los posibles horarios [[1,2,3] ,[1,1,1]]
 var restricciones= {}; //Restricciones de turno  { 1 : [1,2] }
@@ -123,30 +92,6 @@ function llenarHorario(){
         });
         i++;
     })
-}
-
-function actualizar(){
-    const tablaHTML = `
-    <table id="horarioTable">
-        <thead>
-            <tr>
-                <th id="horarioHora" >Hora</th>
-                <th class="horarioDia">Lunes</th>
-                <th class="horarioDia">Martes</th>
-                <th class="horarioDia">Miércoles</th>
-                <th class="horarioDia">Jueves</th>
-                <th class="horarioDia">Viernes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Las filas de la tabla serán generadas por JavaScript -->
-        </tbody>
-    </table>`;
-    //Vuelve a inicializar la tabla
-    document.getElementById("horarioTable").innerHTML= tablaHTML;
-    //Vuelve a llenar
-    generarBloques();
-    llenarHorario();
 }
 
 //
@@ -276,23 +221,8 @@ function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
     }
 }
 
-function descargarDatos() {
-    const datosJSON = JSON.stringify(cursos);
-    const blob = new Blob([datosJSON], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-  
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'datos.json'; // Nombre del archivo
-    a.style.display = 'none';
-  
-    document.body.appendChild(a);
-    a.click(); // Activa la descarga
-    document.body.removeChild(a);
-}
-
 document.addEventListener("DOMContentLoaded", function() {
-    cursos.push(new Curso("Metodos Numéricos", ["306","306","306"], [[16,21,26],[43,48,53],[28,33,38]],["Olha","Olha","Olha"], true));
+    /*cursos.push(new Curso("Metodos Numéricos", ["306","306","306"], [[16,21,26],[43,48,53],[28,33,38]],["Olha","Olha","Olha"], true));
     cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
     cursos.push(new Curso("Construcción de Software", ["306","306"], [[2,7],[36,41]],["Arroyo","Arroyo"], true));
     cursos.push(new Curso("Tecnología de objetos", ["306","306","302"], [[54,59,5,10],[71,76,74,79],[72,77,75,80]],["Bornas","Bornas","Sardón"], true));
@@ -306,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cursos.push(new Curso("Lab- Aspectos", ["306","306","306", "306"], [[4,9],[41,46],[51,56],[53,58]],["Maribel","Maribel","Ramiro", "Ramiro"], true));
     cursos.push(new Curso("Lab Redes", ["306","306"], [[24,29],[56,61]],["Lucy","Lino"], true));
     cursos.push(new Curso("Lab- TO", ["306","306","306","306", "306"], [[22,27],[56,61],[34,39],[44,49],[24,29]],["Bornas","Bornas","Karen","Karen", "Karen"], true));
-    cursos.push(new Curso("Lab - IDSE", ["205","306","306"], [[18,23],[42,47],[52,57]],["Giovanni","Giovanni","Giovanni"], true));
+    cursos.push(new Curso("Lab - IDSE", ["205","306","306"], [[18,23],[42,47],[52,57]],["Giovanni","Giovanni","Giovanni"], true));*/
     restricciones[1]= [0,2];
     restricciones[4]= [1];
     restricciones[3]= [0];

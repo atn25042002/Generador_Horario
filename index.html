@@ -7,8 +7,9 @@
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <link rel="icon" href="./images/horario.ico" type="image/ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="./js/cargar.js"></script>
-    <script src="./js/generar.js"></script>
+    <script src="./js/datos.js"></script>
+    <script src="./js/pagina.js"></script>
+    <script src="./js/cursos.js"></script>
 </head>
 <body>
     <h1 class="titulo">Horario de Clases</h1>
@@ -22,6 +23,8 @@
         <div id="botones">
             <button onclick="generarHorarios()"> Generar Horario </button>
             <button onclick="descargarDatos()"> Guardar Cursos </button>
+            <input type="file" id="jsonFileInput" accept=".json">
+            <button onclick="cargarArchivoJSON()">Cargar JSON</button>
         </div>
         <div id="divHorario" class="cols">
             <table id="horarioTable">
