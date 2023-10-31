@@ -18,6 +18,7 @@ var turnoactual= 0;
 document.addEventListener("DOMContentLoaded", function() {
     agregarTurno();
     generarBloquesFunc();
+    cargarHorario(0);
 });
 
 window.addEventListener('beforeunload', function () {
@@ -31,14 +32,14 @@ function guardarHorario(turno){
 
 function cargarHorario(turno){
     //let anterior = Choras[turnoactual];
-    console.log("Cargando " + turno);  
     Choras[turnoactual]= [...horas];
     let copiahoras= [...horas];
     copiahoras.forEach(function(hora){
-        console.log("quitando " + hora);
         quitarhora(hora);
     });
+    document.getElementsByClassName('turno')[turnoactual].style= "";
     turnoactual= turno;
+    document.getElementsByClassName('turno')[turno].style.backgroundColor = "yellow";
     let nuevos = Choras[turno];
     nuevos.forEach(function(hora){
         agregarhora(hora);
@@ -53,6 +54,7 @@ function agregarTurno(){
     let btn= document.createElement("button");
     btn.textContent="Modificar Horario";
     btn.id= "btn" + (Choras.length);
+    btn.type= "button";
     btn.onclick = function () {
         cargarHorario(this.id.substring(3));
     };
@@ -110,6 +112,7 @@ function generarBloquesFunc(){
 
 function guardarCurso(){
     //datosCurso y turno
+    cargarHorario(turnoactual);
     let formcurso= document.getElementById('datosCurso');    
     if(formcurso.nombre.value == ""){
         window.alert("Ingrese nombre del curso");
@@ -118,18 +121,16 @@ function guardarCurso(){
     let Cturnos= Array.from(document.getElementsByClassName('turno'));
     let Caulas= [];
     let Cdocentes = [];
-    let vacios= false;
     for(let i= 0; i< Cturnos.length; i++){
         let turno = Cturnos[i];
         if(turno.docente.value == "" || turno.aula.value == ""){
-            document.getElementById("btn" + i).click;
-            vacios= true;
+            document.getElementById("btn" + i).click();
+            window.alert("Complete los datos de este turno"); 
             return;
         }
         if(Choras[i].length == 0){
-            document.getElementById("btn" + i).click;
-            window.alert("Cargue los horarios de este turno");
-            
+            document.getElementById("btn" + i).click();
+            window.alert("Cargue los horarios de este turno");            
             return;
         }
         Cdocentes.push(turno.docente.value);
