@@ -22,18 +22,18 @@ function cargarArchivoJSON() {
 
         reader.onload = function(e) {
             try {
-                cursos= JSON.parse(e.target.result);
-                console.log('Contenido JSON cargado:', cursos);
+                cursos= JSON.parse(e.target.result);                
                 input.value = '';
                 generarCursos();
                 actualizar();
+                window.alert("Cursos cargados")
             } catch (error) {
-                console.error('Error al cargar el archivo JSON:', error);
+                window.alert("Error al cargar archivos");
             }
         };
 
         reader.readAsText(file);
     } else {
-        console.error('Selecciona un archivo JSON antes de cargarlo.');
+        window.alert("Seleccione un archivo JSON");
     }
 }
