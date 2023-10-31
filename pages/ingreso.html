@@ -19,6 +19,14 @@
             <h4 class="subtitulo">TURNOS</h3>
             <div id="turnos">
                 <div id="turno-form">
+                    <form id="datosCurso">
+                        <label for="nombre">Nombre del Curso</label>
+                        <input type="text" name="nombre" placeholder="Nombre del Curso" required>
+
+                        <label for="obligatorio">Obligatorio:</label>
+                        <input type="checkbox" name="obligatorio">
+                        <br><br>
+                    </form>
                 </div> 
                 <button type="button" id="agregar-turno" onclick="agregarTurno()">Agregar Turno</button>
                 <button type="submit">Guardar Registros</button>
