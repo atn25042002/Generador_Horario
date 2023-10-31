@@ -6,6 +6,10 @@
     margin: 0 0 0 0;
 }
 
+h1{
+    text-align: center;
+}
+
 .overlay {
     position: fixed;
     top: 0;

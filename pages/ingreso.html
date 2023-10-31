@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planificador</title>
-    <link rel="stylesheet" type="text/css" href="./css/styles.css">
-    <link rel="icon" href="./images/horario.ico" type="image/ico">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="icon" href="../images/horario.ico" type="image/ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="./js/datos.js"></script>
-    <script src="./js/pagina.js"></script>
-    <script src="./js/cursos.js"></script>
-    <script src="./js/index.js"></script>
+    <script src="../js/datos.js"></script>
+    <script src="../js/pagina.js"></script>
+    <script src="../js/cursos.js"></script>
+    <script src="../js/ingreso.js"></script>
 </head>
 <body>
-    <h1 class="titulo">HORARIO DE CLASES</h1>
-    <h3><a href="./pages/ingreso.html">Ingresar Curso</a></h3>
+    <h1 class="titulo">INGRESANDO NUEVO CURSO</h1>
     <div class="centro">        
         <div id="divTurnos" class="cols">
             <h4 class="subtitulo">TURNOS</h3>
@@ -23,10 +22,7 @@
             </div>
         </div>
         <div id="botones">
-            <button onclick="generarHorarios()"> Generar Horario </button>
             <button onclick="descargarDatos()"> Guardar Cursos </button>
-            <input type="file" id="jsonFileInput" accept=".json">
-            <button onclick="cargarArchivoJSON()">Cargar JSON</button>
         </div>
         <div id="divHorario" class="cols">
             <table id="horarioTable">
