@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     restricciones[4]= [1];
     restricciones[3]= [0];
     generarBloques();
-    generarCursos();
+    cargarCursos();
     llenarHorario();
 });
 

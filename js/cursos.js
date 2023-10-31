@@ -36,7 +36,7 @@ var max= 20; //Maximo de horarios
     });
 }*/
 
-function generarCursos(){
+function cargarCursos(){
     //Carga los cursos registrados con sus turnos
     let lstcursos= document.getElementById("turnos");
     let i= 0;

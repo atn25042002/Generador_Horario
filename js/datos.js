@@ -24,7 +24,7 @@ function cargarArchivoJSON() {
             try {
                 cursos= JSON.parse(e.target.result);                
                 input.value = '';
-                generarCursos();
+                cargarCursos();
                 actualizar();
                 window.alert("Cursos cargados")
             } catch (error) {

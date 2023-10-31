@@ -9,7 +9,9 @@ var campo = `
 <input type="checkbox" name="obligatorio">
 `;
 
+var Choras= [];
 var horas=[];
+var turnoactual= 0;
 
 //<div class="curso">
 
@@ -23,11 +25,39 @@ window.addEventListener('beforeunload', function () {
     //localStorage.setItem('cursos', JSON.stringify(cursos));
 })
 
+function guardarHorario(turno){
+    
+}
+
+function cargarHorario(turno){
+    //let anterior = Choras[turnoactual];
+    console.log("Cargando " + turno);  
+    Choras[turnoactual]= [...horas];
+    let copiahoras= [...horas];
+    copiahoras.forEach(function(hora){
+        console.log("quitando " + hora);
+        quitarhora(hora);
+    });
+    turnoactual= turno;
+    let nuevos = Choras[turno];
+    nuevos.forEach(function(hora){
+        agregarhora(hora);
+    });
+}
+
 function agregarTurno(){
     let campos= document.getElementById('turno-form');
     let curso= document.createElement('form');
     curso.innerHTML= campo;
     curso.className= "turno";
+    let btn= document.createElement("button");
+    btn.textContent="Modificar Horario";
+    btn.id= "btn" + (Choras.length);
+    btn.onclick = function () {
+        cargarHorario(this.id.substring(3));
+    };
+    curso.appendChild(btn);
+    Choras.push([]);
     campos.appendChild(curso);
 }
 
@@ -35,7 +65,6 @@ function agregarhora(hora){
     let zona= document.getElementById('hora' + hora);
     zona.style.backgroundColor = "blue";
     horas.push(hora);
-    console.log(horas);
     zona.onclick = function () {
         quitarhora(hora);
     };
@@ -48,7 +77,6 @@ function quitarhora(hora){
     if (index !== -1) {
         horas.splice(index, 1);
     }
-    console.log(horas);
     zona.onclick = function () {
         agregarhora(hora);
     };    
@@ -78,4 +106,36 @@ function generarBloquesFunc(){
         tableBody.appendChild(row);
         sum+=5;
     });
+}
+
+function guardarCurso(){
+    //datosCurso y turno
+    let formcurso= document.getElementById('datosCurso');    
+    if(formcurso.nombre.value == ""){
+        window.alert("Ingrese nombre del curso");
+        return;
+    }
+    let Cturnos= Array.from(document.getElementsByClassName('turno'));
+    let Caulas= [];
+    let Cdocentes = [];
+    let vacios= false;
+    for(let i= 0; i< Cturnos.length; i++){
+        let turno = Cturnos[i];
+        if(turno.docente.value == "" || turno.aula.value == ""){
+            document.getElementById("btn" + i).click;
+            vacios= true;
+            return;
+        }
+        if(Choras[i].length == 0){
+            document.getElementById("btn" + i).click;
+            window.alert("Cargue los horarios de este turno");
+            
+            return;
+        }
+        Cdocentes.push(turno.docente.value);
+        Caulas.push(turno.aula.value);
+    }
+    c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
+    console.log(c);
+    //cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
 }
