@@ -10,7 +10,7 @@ class Curso{
 
 var cursos= []; // Contiene los cursos registrados 
 var posibles= []; // Guarda los posibles horarios [[1,2,3] ,[1,1,1]]
-var restricciones= {}; //Restricciones de turno  { 1 : [1,2] }
+var restricciones= []; //Restricciones de turno  { 1 : [1,2] }
 var nrohorario= -1; //Nro de horario posible
 var max= 20; //Maximo de horarios
 
@@ -112,7 +112,7 @@ function evaluarHorario(turnos){
         let horas= cursos[i].horas[turno]; //Las horas del curso i en el turno - int[]
         horasllenas.push(...horas); //Agrega las horas del curso a las horas llenas
         canthoras+= horas.length; //Suma la cantidad de horas necesarias
-        if (restricciones[i] && Array.isArray(restricciones[i])) {
+        if (restricciones[i] != undefined) {
             //Vefirica si es que el curso tiene alguna restriccion de turno
             if(!restricciones[i].includes(turno)){
                 //Verifica si es que el turno propuesto esta incluido en las restricciones
