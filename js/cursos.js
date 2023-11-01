@@ -4,13 +4,14 @@ class Curso{
         this.aula= aula; //Aulas de los turnos - string[]         A     B     C
         this.horas= horas; //Horas de los turnos - int[][] ej: [[1,6],[2,5],[3,8]]
         this.docente= docente; // Docente de cada turno - String[]
-        this.prioridad= prioridad // Si el curso es prioridad - bool[]
+        this.prioridad= prioridad; // Si el curso es prioridad - bool[]
+        this.preferencias = [];
     }
 }
 
 var cursos= []; // Contiene los cursos registrados 
 var posibles= []; // Guarda los posibles horarios [[1,2,3] ,[1,1,1]]
-var restricciones= []; //Restricciones de turno  { 1 : [1,2] }
+//var restricciones= []; //Restricciones de turno  { 1 : [1,2] }
 var nrohorario= -1; //Nro de horario posible
 var max= 20; //Maximo de horarios
 
@@ -110,11 +111,12 @@ function evaluarHorario(turnos){
     for(let i= 0; i< ncursos; i++){
         let turno= turnos[i]; //El turno del curso i  
         let horas= cursos[i].horas[turno]; //Las horas del curso i en el turno - int[]
+        let preferencias=cursos[i].preferencias;
         horasllenas.push(...horas); //Agrega las horas del curso a las horas llenas
         canthoras+= horas.length; //Suma la cantidad de horas necesarias
-        if (restricciones[i] != undefined) {
+        if (preferencias.length > 0) {
             //Vefirica si es que el curso tiene alguna restriccion de turno
-            if(!restricciones[i].includes(turno)){
+            if(!preferencias.includes(turno)){
                 //Verifica si es que el turno propuesto esta incluido en las restricciones
                 boolprof= false;
                 break;

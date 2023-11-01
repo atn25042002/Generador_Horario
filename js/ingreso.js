@@ -5,8 +5,8 @@ var campo = `
 <label for="aula">Aula:</label>
 <input type="text" name="aula" placeholder="Nombre del aula" required>
 
-<label for="obligatorio">Obligatorio:</label>
-<input type="checkbox" name="obligatorio">
+<label for="preferencia">Preferencia:</label>
+<input type="checkbox" name="preferencia">
 `;
 
 var Choras= [];
@@ -121,6 +121,7 @@ function guardarCurso(){
     let Cturnos= Array.from(document.getElementsByClassName('turno'));
     let Caulas= [];
     let Cdocentes = [];
+    let Crestricciones= [];
     for(let i= 0; i< Cturnos.length; i++){
         let turno = Cturnos[i];
         if(turno.docente.value == "" || turno.aula.value == ""){
@@ -135,8 +136,12 @@ function guardarCurso(){
         }
         Cdocentes.push(turno.docente.value);
         Caulas.push(turno.aula.value);
+        if(turno.preferencia.checked){
+            Crestricciones.push(i);
+        }
     }
     c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
+    c.preferencias= [...Crestricciones];
     console.log(c);
     //cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
 }
