@@ -122,7 +122,7 @@ function evaluarHorario(turnos){
                 break;
             }
         }
-    }
+    }    
     let horasunicas= new Set(horasllenas); //Crea un set para que se eliminen las horas repetidas
     let datos=[canthoras - horasunicas.size, boolprof];
     //Halla la diferencia entre las horas necesarias y las horas sin repetirse

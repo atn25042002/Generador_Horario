@@ -70,7 +70,7 @@ function agregarTurno(){
 function agregarhora(hora){
     let zona= document.getElementById('hora' + hora);
     zona.style.backgroundColor = "blue";
-    horas.push(hora);
+    horas.push(parseInt(hora));
     zona.onclick = function () {
         quitarhora(hora);
     };
@@ -147,5 +147,9 @@ function guardarCurso(){
     c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];
     console.log(c);
+    let cursos = JSON.parse(localStorage.getItem('cursos'));    
+    cursos.push(c);
+    localStorage.setItem('cursos', JSON.stringify(cursos));
+    regresar();
     //cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
 }
