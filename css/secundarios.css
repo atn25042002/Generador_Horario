@@ -14,3 +14,18 @@ h1{
     margin-right: 10px;
     fill: #000; /* Color de la flecha, puedes ajustarlo según tus preferencias */
 }
+
+#listaTurnos{
+  display: table;
+}
+
+.turno{
+  display: table-row;
+  border-color: #000;
+  border-radius: 5px;
+}
+
+.celda{
+  display: table-cell;
+  margin: 5px 15px 0px;
+}

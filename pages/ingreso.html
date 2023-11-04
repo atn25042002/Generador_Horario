@@ -25,7 +25,7 @@
     <div class="centro">        
         <div id="divTurnos" class="cols">
             <h4 class="subtitulo">TURNOS</h3>
-            <div id="turnos">
+            <div>
                 <div id="turno-form">
                     <form id="datosCurso">
                         <label for="nombre">Nombre del Curso</label>
@@ -35,13 +35,13 @@
                         <input type="checkbox" name="obligatorio">
                         <br><br>
                     </form>
+                    <div id="listaTurnos">
+
+                    </div>
                 </div> 
                 <button type="button" id="agregar-turno" onclick="agregarTurno()">Agregar Turno</button>
-                <button type="button" onclick="guardarCurso()" >Guardar Curso</button>
+                <button type="button" id="btnguardar" onclick="guardarCurso()" >Guardar Curso</button>
             </div>
-        </div>
-        <div id="botones">
-            <button onclick="navegar('../index.html')"> Cancelar</button>
         </div>
         <div id="divHorario" class="cols">
             <table id="horarioTable">

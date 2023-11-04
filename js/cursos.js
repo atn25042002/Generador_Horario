@@ -1,10 +1,10 @@
 class Curso{
-    constructor(nombre, aula, horas, docente, prioridad){
+    constructor(nombre, aula, horas, docente, obligatorio){
         this.nombre= nombre; //Nombre del curso - string
         this.aula= aula; //Aulas de los turnos - string[]         A     B     C
         this.horas= horas; //Horas de los turnos - int[][] ej: [[1,6],[2,5],[3,8]]
         this.docente= docente; // Docente de cada turno - String[]
-        this.prioridad= prioridad; // Si el curso es prioridad - bool[]
+        this.obligatorio= obligatorio; // Si el curso es obligatorio - bool[]
         this.preferencias = [];
     }
 }
@@ -60,14 +60,24 @@ function cargarCursos(){
         let lblprof= document.createElement('label');
         lblprof.textContent= curso.docente[0];
         lblprof.setAttribute('id', "p-" + i);
+
+        let btneditar= document.createElement('button');
+        btneditar.textContent= "Editar";
+        btneditar.setAttribute('id', "b-" + i);
+        btneditar.onclick = function () {
+            navegar("./pages/ingreso.html?curso=" + this.id.substring(2));
+        };
+
         //Se le asigna los formatos celda y fila para poder mostrarlos con tabulacion en css
         label.setAttribute('class', 'celda');
         turnos.setAttribute('class', 'celda');
         lblprof.setAttribute('class', 'celda');
+        btneditar.setAttribute('class', 'celda');
         //Agrega el labdel del curso, la casilla select y el label del profesor a la fila
         fila.appendChild(label);
         fila.appendChild(turnos);
         fila.appendChild(lblprof);
+        fila.appendChild(btneditar);
 
         lstcursos.appendChild(fila); // Añade la fila al div
         //lstcursos.append(document.createElement("br"));

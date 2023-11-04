@@ -1,33 +1,54 @@
 var campo = `
-<label for="docente">Docente:</label>
-<input type="text" name="docente" placeholder="Nombre del docente" required>
+<label class="celda" for="docente">Docente:</label>
+<input class="celda" type="text" name="docente" placeholder="Nombre del docente" required>
 
-<label for="aula">Aula:</label>
-<input type="text" name="aula" placeholder="Nombre del aula" required>
+<label class="celda" for="aula">Aula:</label>
+<input class="celda" type="text" name="aula" placeholder="Nombre del aula" required>
 
-<label for="preferencia">Preferencia:</label>
-<input type="checkbox" name="preferencia">
+<label class="celda" for="preferencia">Preferencia:</label>
+<input class="celda" type="checkbox" name="preferencia">
 `;
 
 var Choras= [];
 var horas=[];
 var turnoactual= 0;
+var _indiceCurso;
 
 //<div class="curso">
 
-document.addEventListener("DOMContentLoaded", function() {
-    agregarTurno();
+document.addEventListener("DOMContentLoaded", function() {    
     generarBloquesFunc();
+    let url = new URL(window.location.href);
+    let curso = url.searchParams.get("curso");
+    if( curso != undefined){
+        _indiceCurso= curso;
+        editarCurso(curso);
+        document.getElementById("btnguardar").setAttribute('onclick',"actualizarCurso()")
+    }else{
+        agregarTurno();
+    }
     cargarHorario(0);
 });
 
 window.addEventListener('beforeunload', function () {
     // Tu código aquí para guardar algo en el LocalStorage justo antes de cerrar la página.
     //localStorage.setItem('cursos', JSON.stringify(cursos));
-})
+});
 
-function guardarHorario(turno){
+function editarCurso(indice){
+    let formcurso= document.getElementById('datosCurso');
+    let cursos= JSON.parse(localStorage.getItem('cursos'));
+    let curso= cursos[indice];
+    console.log(curso);
+    formcurso.nombre.value= curso.nombre;
+    formcurso.obligatorio.checked= curso.obligatorio;
+    Choras= [...curso.horas];   
+    horas= Choras[turnoactual];
+    let nturnos= Choras.length; 
     
+    for(let i= 0; i< nturnos; i++){
+        agregarTurnoDatos(curso.docente[i], curso.aula[i], curso.preferencias.includes(i), i);
+    }
 }
 
 function cargarHorario(turno){
@@ -46,20 +67,45 @@ function cargarHorario(turno){
     });
 }
 
-function agregarTurno(){
-    let campos= document.getElementById('turno-form');
+function agregarTurnoDatos(docente, aula, preferencia, indice){
+    console.log(indice);
+    let campos= document.getElementById('listaTurnos');
     let curso= document.createElement('form');
+    let nro= indice;
     curso.innerHTML= campo;
     curso.className= "turno";
+    curso.docente.value= docente;
+    curso.aula.value= aula;
+    curso.preferencia.checked= preferencia;
+
     let btn= document.createElement("button");
-    btn.textContent="Modificar Horario";
-    btn.id= "btn" + (Choras.length);
+    btn.textContent="Modificar Horario - Turno " + letra[nro + 1];
+    btn.id= "btn" + nro;
+    btn.className= "celda";
     btn.type= "button";
     btn.onclick = function () {
         cargarHorario(this.id.substring(3));
     };
     curso.appendChild(btn);
-    Choras.push([]);
+    campos.appendChild(curso);
+}
+
+function agregarTurno(){
+    let campos= document.getElementById('listaTurnos');
+    let curso= document.createElement('form');
+    let nro= Choras.length;
+    curso.innerHTML= campo;
+    curso.className= "turno";
+    let btn= document.createElement("button");
+    btn.textContent="Modificar Horario - Turno " + letra[nro + 1];
+    btn.id= "btn" + nro;
+    btn.className= "celda";
+    btn.type= "button";
+    btn.onclick = function () {
+        cargarHorario(this.id.substring(3));
+    };
+    curso.appendChild(btn);
+    Choras.push([]);    
     campos.appendChild(curso);
 }
 
@@ -110,6 +156,44 @@ function generarBloquesFunc(){
     });
 }
 
+function actualizarCurso(){
+    cargarHorario(turnoactual);
+    let formcurso= document.getElementById('datosCurso');    
+    if(formcurso.nombre.value == ""){
+        window.alert("Ingrese nombre del curso");
+        return;
+    }
+    let Cturnos= Array.from(document.getElementsByClassName('turno'));
+    let Caulas= [];
+    let Cdocentes = [];
+    let Crestricciones= [];
+    for(let i= 0; i< Cturnos.length; i++){
+        let turno = Cturnos[i];
+        if(turno.docente.value == "" || turno.aula.value == ""){
+            document.getElementById("btn" + i).click();
+            window.alert("Complete los datos de este turno"); 
+            return;
+        }
+        if(Choras[i].length == 0){
+            document.getElementById("btn" + i).click();
+            window.alert("Cargue los horarios de este turno");            
+            return;
+        }
+        Cdocentes.push(turno.docente.value);
+        Caulas.push(turno.aula.value);
+        if(turno.preferencia.checked){
+            Crestricciones.push(i);
+        }
+    }
+    c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
+    c.preferencias= [...Crestricciones];
+    console.log(c);
+    let cursos = JSON.parse(localStorage.getItem('cursos'));    
+    cursos[_indiceCurso]= c;
+    localStorage.setItem('cursos', JSON.stringify(cursos));
+    navegar("../index.html");
+}
+
 function guardarCurso(){
     //datosCurso y turno
     cargarHorario(turnoactual);
@@ -146,6 +230,6 @@ function guardarCurso(){
     let cursos = JSON.parse(localStorage.getItem('cursos'));    
     cursos.push(c);
     localStorage.setItem('cursos', JSON.stringify(cursos));
-    regresar();
+    navegar("../index.html");
     //cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
 }

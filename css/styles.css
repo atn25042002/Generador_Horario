@@ -39,6 +39,29 @@ button {
     background-color: #951909;
   }
 
+
+
+select{
+    align-items: end;
+}
+
+table {
+    font-size: 11px;
+    font-family: Consolas,monospace;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 2px 2px 2px 2px;
+    text-align: center;    
+    width: auto;
+    height: auto;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -84,27 +107,21 @@ button {
     justify-content: center;
 }
 
-table {
-    font-size: 11px;
-    font-family: Consolas,monospace;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 2px 2px 2px 2px;
-    text-align: center;    
-    width: auto;
-    height: auto;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
 .centro {
     width: 100%; /* Ancho del contenedor principal */
     height: auto; /* Altura del contenedor principal (puedes ajustarla según tus necesidades) */
     display: block;  /* Utilizar flexbox para distribuir los divs horizontalmente */
+}
+
+.fila{
+    display: table-row;
+    /*display: table-cell;*/
+    padding: 5px
+}
+
+.celda{
+    display: table-cell;
+    margin: 0 20px;
 }
 
 /*#horarioHora{
@@ -115,7 +132,10 @@ th {
     border: 1px solid #000;
 }*/
 
-/* Estilo de los divs internos */
+#turnos{
+    display: table;
+}
+
 #superior{
     display: flex;
 }
@@ -143,28 +163,4 @@ th {
 
 #botones{
     align-items: center;
-}
-
-#turnos{
-    display: table;
-}
-
-.fila{
-    display: table-row;
-    /*display: table-cell;*/
-    padding: 5px
-}
-
-.celda{
-    display: table-cell;
-    margin: 0 20px;
-}
-
-label, select {
-    margin-bottom: 5px; /* Espacio entre etiquetas y select */
-    margin-right: 5px;
-}
-
-select{
-    align-items: end;
 }
