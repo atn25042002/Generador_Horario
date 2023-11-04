@@ -70,16 +70,25 @@ function cargarCursos(){
             navegar("./pages/ingreso.html?curso=" + this.id.substring(2));
         };
 
+        let btneliminar= document.createElement('button');
+        btneliminar.textContent= "X";
+        btneliminar.setAttribute('id', "b-" + i);
+        btneliminar.onclick = function () {
+            eliminarCurso(this.id.substring(2));
+        };
+
         //Se le asigna los formatos celda y fila para poder mostrarlos con tabulacion en css
         label.setAttribute('class', 'celda');
         turnos.setAttribute('class', 'celda');
         lblprof.setAttribute('class', 'celda');
         btneditar.setAttribute('class', 'celda');
+        btneliminar.setAttribute('class', 'celda');
         //Agrega el labdel del curso, la casilla select y el label del profesor a la fila
         fila.appendChild(label);
         fila.appendChild(turnos);
         fila.appendChild(lblprof);
         fila.appendChild(btneditar);
+        fila.appendChild(btneliminar);
 
         lstcursos.appendChild(fila); // Añade la fila al div
         //lstcursos.append(document.createElement("br"));

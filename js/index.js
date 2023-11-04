@@ -27,3 +27,13 @@ window.addEventListener('beforeunload', function () {
     // Tu código aquí para guardar algo en el LocalStorage justo antes de cerrar la página.
     localStorage.setItem('cursos', JSON.stringify(cursos));
 })
+
+function eliminarCurso(curso){
+    var confirmacion = confirm("¿Eliminar curso de " + cursos[curso].nombre + "?");
+    if (confirmacion) {
+        cursos.splice(curso,1);
+        document.getElementById("turnos").innerHTML= '';
+        cargarCursos();
+        actualizar();
+    }
+}
