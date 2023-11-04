@@ -116,12 +116,12 @@ th {
 .fila{
     display: table-row;
     /*display: table-cell;*/
-    padding: 5px
+    padding: 5px;
 }
 
 .celda{
     display: table-cell;
-    margin: 0 20px;
+    margin: 0 35px 5px;
 }
 
 /*#horarioHora{

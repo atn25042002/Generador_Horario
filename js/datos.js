@@ -1,3 +1,5 @@
+//Funciones para la exportacion e importacion de datos en JSON
+
 function descargarDatos() {
     const datosJSON = JSON.stringify(cursos);
     const blob = new Blob([datosJSON], { type: 'application/json' });

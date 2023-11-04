@@ -1,3 +1,5 @@
+//Funciones y variables generales
+
 function generarBloques(){
     //Genera el horario con dias y horas vacios
     let tableBody = document.querySelector("#horarioTable tbody");

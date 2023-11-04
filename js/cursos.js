@@ -1,3 +1,5 @@
+//Manejo de Cursos
+
 class Curso{
     constructor(nombre, aula, horas, docente, obligatorio){
         this.nombre= nombre; //Nombre del curso - string
