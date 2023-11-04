@@ -1,0 +1,16 @@
+h1{
+  flex: 1;
+}
+
+.titulo-con-flecha {
+    display: flex;
+    align-items: center;
+  }
+
+/* Estilo para la flecha */
+.flecha {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    fill: #000; /* Color de la flecha, puedes ajustarlo según tus preferencias */
+}

@@ -8,7 +8,36 @@
 
 h1{
     text-align: center;
+    padding: 5px 0px 10px;
 }
+
+h3{
+    padding: 5px 0px 5px;
+}
+
+button {
+    display: inline-block;
+    padding: 2px 5px;
+    background-color: #db3434;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    margin: 15px 15px 15px 5px;
+  }
+  
+  /* Efecto al pasar el cursor por encima (hover) */
+  button:hover {
+    background-color: #9f2424;
+  }
+  
+  /* Efecto al presionar el botón (active) */
+  button:active {
+    background-color: #951909;
+  }
 
 .overlay {
     position: fixed;
@@ -87,15 +116,33 @@ th {
 }*/
 
 /* Estilo de los divs internos */
+#superior{
+    display: flex;
+}
+
+#divTurnos,#botones {
+    flex: 1; /* Distribuye el espacio de manera igual entre ambos divs */
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
 #divHorario{
     width: 100%;
     height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #divTurnos{
     width: auto;
     padding: 5px 5px 5px 5px;
     height: auto ;
+}
+
+#botones{
+    align-items: center;
 }
 
 #turnos{

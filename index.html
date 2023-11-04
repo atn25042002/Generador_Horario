@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,27 +13,34 @@
     <script src="./js/cursos.js"></script>
     <script src="./js/index.js"></script>
 </head>
+
 <body>
     <h1 class="titulo">HORARIO DE CLASES</h1>
-    <button  onclick="navegar('./pages/ingreso.html')"> Ingresar Curso</button>
-    <div class="centro">        
-        <div id="divTurnos" class="cols">
-            <h4 class="subtitulo">TURNOS</h3>
-            <div id="turnos">
-                
+    <div class="centro">
+        <div id="superior">
+            <div id="divTurnos" class="cols">
+                <h3 class="subtitulo">CURSOS REGISTRADOS</h3>
+                    <div id="turnos">
+
+                    </div>
+                <button onclick="navegar('./pages/ingreso.html')"> Ingresar Curso</button>
+                <br>
+            </div>
+            <div id="botones">
+                <input type="file" id="jsonFileInput" accept=".json">
+                <button onclick="cargarArchivoJSON()">Importar Cursos</button>
+                <br>
+                <button onclick="descargarDatos()"> Exportar Cursos </button>
+                <br>
+
             </div>
         </div>
-        <div id="botones">
-            <button onclick="generarHorarios()"> Generar Horario </button>
-            <button onclick="descargarDatos()"> Guardar Cursos </button>
-            <input type="file" id="jsonFileInput" accept=".json">
-            <button onclick="cargarArchivoJSON()">Cargar JSON</button>
-        </div>
         <div id="divHorario" class="cols">
+            <button onclick="generarHorarios()"> Generar Horario </button>
             <table id="horarioTable">
                 <thead>
                     <tr>
-                        <th id="horarioHora" >Hora</th>
+                        <th id="horarioHora">Hora</th>
                         <th class="horarioDia">Lunes</th>
                         <th class="horarioDia">Martes</th>
                         <th class="horarioDia">Miércoles</th>
@@ -46,7 +54,7 @@
             </table>
         </div>
     </div>
-    
+
     <div class="overlay" id="miOverlay">
         <!-- Contenido del modal -->
         <div class="modal" id="miModal">
@@ -62,9 +70,10 @@
                 <div class="tuerca">
                     <i class="fa fa-cog"></i>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 
 </body>
+
 </html>
