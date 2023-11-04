@@ -44,6 +44,10 @@ function actualizar(){
     llenarHorario();
 }
 
+function navegar(dir){
+    window.location.href = dir;
+}
+
 var intervalosHorarios = [ // Guarda los valores de las horas
     "7:00 - 7:50",
     "7:50 - 8:40",

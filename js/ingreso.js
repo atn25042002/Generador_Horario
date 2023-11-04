@@ -26,10 +26,6 @@ window.addEventListener('beforeunload', function () {
     //localStorage.setItem('cursos', JSON.stringify(cursos));
 })
 
-function regresar(){
-    window.location.href = "../index.html";
-}
-
 function guardarHorario(turno){
     
 }
