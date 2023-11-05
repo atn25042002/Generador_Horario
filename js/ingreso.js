@@ -227,7 +227,10 @@ function guardarCurso(){
     c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];
     console.log(c);
-    let cursos = JSON.parse(localStorage.getItem('cursos'));    
+    let cursos = JSON.parse(localStorage.getItem('cursos'));
+    if(cursos == null){
+        cursos=[];
+    }
     cursos.push(c);
     localStorage.setItem('cursos', JSON.stringify(cursos));
     navegar("../index.html");

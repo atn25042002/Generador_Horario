@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function() {
     cursos.push(new Curso("Lab- TO", ["306","306","306","306", "306"], [[22,27],[56,61],[34,39],[44,49],[24,29]],["Bornas","Bornas","Karen","Karen", "Karen"], true));
     cursos.push(new Curso("Lab - IDSE", ["205","306","306"], [[18,23],[42,47],[52,57]],["Giovanni","Giovanni","Giovanni"], true));*/
     cursos= JSON.parse(localStorage.getItem('cursos'));
+    if(cursos == null){
+        cursos=[];
+    }
     //restricciones[1]= [0,2];
     //restricciones[4]= [1];
     //restricciones[3]= [0];
