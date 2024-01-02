@@ -78,5 +78,4 @@ var letra = { //Convierte el Turno del curso a número
     6: 'F',
     7: 'G',
     8: 'H',
-    9: 'I',
 };

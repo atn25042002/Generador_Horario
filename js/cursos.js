@@ -66,9 +66,10 @@ function cargarCursos(){
         turnos.addEventListener("change", function() {
             actualizar();
         });
-        for(let i= 0; i< curso.horas.length; i++){
+        let nturnos = curso.turnos.length;
+        for(let i= 0; i< nturnos; i++){
             let opcion= document.createElement('option');
-            opcion.text= curso.letra;
+            opcion.text= curso.turnos[i].letra;
             opcion.value= i;
             turnos.appendChild(opcion);
         }

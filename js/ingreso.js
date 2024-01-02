@@ -1,4 +1,15 @@
 var campo = `
+<select class="celda" name="letra">
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="G">G</option>
+    <option value="H">H</option>
+</select>
+
 <label class="celda" for="docente">Docente:</label>
 <input class="celda" type="text" name="docente" placeholder="Nombre del docente" required>
 
@@ -36,32 +47,34 @@ window.addEventListener('beforeunload', function () {
 });
 
 function editarCurso(indice){
+    //Carga los datos del curso de indice en el formulario.
     let formcurso= document.getElementById('datosCurso');
     let cursos= JSON.parse(localStorage.getItem('cursos'));
     let curso= cursos[indice];
-    console.log(curso);
+    //Carga el formulario principal
     formcurso.nombre.value= curso.nombre;
     formcurso.obligatorio.checked= curso.obligatorio;
     CursoTurnos= [...curso.turnos];   
     horas= CursoTurnos[turnoactual].horas;
     let nturnos= CursoTurnos.length;
-
     
     for(let i= 0; i< nturnos; i++){
-        agregarTurnoDatos(curso.docente[i], curso.aula[i], curso.preferencias.includes(i), i);
+        //Carga los turnos del curso en los campos de los fomularios
+        agregarTurnoDatos(curso.turnos[i], curso.preferencias.includes(i), i);
     }
 }
 
 function cargarHorario(turno){
+    //Carga el horario al turno seleccionado en la tabla de colores.
     //let anterior = Choras[turnoactual];
-    CursoTurnos[turnoactual].horas= [...horas];
+    CursoTurnos[turnoactual].horas= [...horas]; //Guarda las horas actuales
     let copiahoras= [...horas];
     //Quita las horas del anterior turno
     copiahoras.forEach(function(hora){
-        quitarhora(hora);
+        quitarhora(hora); //Las quita
     });
     document.getElementsByClassName('turno')[turnoactual].style= "";
-    turnoactual= turno;
+    turnoactual= turno; //Ahora es un nuevo turno
     document.getElementsByClassName('turno')[turno].style.backgroundColor = "yellow";
     //Carga Las nuevas horas
     let nuevos = CursoTurnos[turno].horas;
@@ -70,49 +83,55 @@ function cargarHorario(turno){
     });
 }
 
-function agregarTurnoDatos(docente, aula, preferencia, indice){
-    console.log(indice);
+function agregarTurnoDatos(turno, preferencia, indice){
+    //Crea un campo de turno con los datos indicados.
     let campos= document.getElementById('listaTurnos');
-    let curso= document.createElement('form');
+    let filaTurno= document.createElement('form');
     let nro= indice;
-    curso.innerHTML= campo;
-    curso.className= "turno";
-    curso.docente.value= docente;
-    curso.aula.value= aula;
-    curso.preferencia.checked= preferencia;
+    filaTurno.innerHTML= campo;
+    filaTurno.className= "turno";
+    filaTurno.letra.value= turno.letra;
+    filaTurno.docente.value= turno.docente;
+    filaTurno.aula.value= turno.aula;
+    filaTurno.preferencia.checked= preferencia;
 
     let btn= document.createElement("button");
-    btn.textContent="Modificar Horario - Turno " + letra[nro + 1];
+    btn.textContent="Modificar Horario";
     btn.id= "btn" + nro;
     btn.className= "celda";
     btn.type= "button";
     btn.onclick = function () {
         cargarHorario(this.id.substring(3));
     };
-    curso.appendChild(btn);
-    campos.appendChild(curso);
+    filaTurno.appendChild(btn);
+    campos.appendChild(filaTurno);
 }
 
 function agregarTurno(){
+    //Agrega un nuevo campo para un turno nuevo
+    let nro= CursoTurnos.length;    
     let campos= document.getElementById('listaTurnos');
-    let curso= document.createElement('form');
-    let nro= CursoTurnos.length;
-    curso.innerHTML= campo;
-    curso.className= "turno";
+    let filaTurno= document.createElement('form');
+    filaTurno.innerHTML= campo;
+    filaTurno.className= "turno";
+    if(nro < 8){
+        filaTurno.letra.value= letra[nro + 1];
+    }    
     let btn= document.createElement("button");
-    btn.textContent="Modificar Horario - Turno " + letra[nro + 1];
+    btn.textContent="Modificar Horario";
     btn.id= "btn" + nro;
     btn.className= "celda";
     btn.type= "button";
     btn.onclick = function () {
         cargarHorario(this.id.substring(3));
     };
-    curso.appendChild(btn);
+    filaTurno.appendChild(btn);
     CursoTurnos.push([]);    
-    campos.appendChild(curso);
+    campos.appendChild(filaTurno);
 }
 
 function agregarhora(hora){
+    //Selecciona la hora de la tabla de colores
     let zona= document.getElementById('hora' + hora);
     zona.style.backgroundColor = "blue";
     horas.push(parseInt(hora));
@@ -122,6 +141,7 @@ function agregarhora(hora){
 }
 
 function quitarhora(hora){
+    //Deselecciona la hora de la tabla de colores
     let zona= document.getElementById('hora' + hora);
     zona.style= '';
     const index = horas.indexOf(hora);
@@ -160,17 +180,35 @@ function generarBloquesFunc(){
 }
 
 function actualizarCurso(){
+    let cursos = JSON.parse(localStorage.getItem('cursos'));    
+    cursos[_indiceCurso]= recopilarCurso();
+    localStorage.setItem('cursos', JSON.stringify(cursos));
+    navegar("../index.html");
+}
+
+function guardarCurso(){   
+    let cursos = JSON.parse(localStorage.getItem('cursos'));
+    if(cursos == null){
+        cursos=[];
+    }
+    cursos.push(recopilarCurso());
+    localStorage.setItem('cursos', JSON.stringify(cursos));
+    navegar("../index.html");
+}
+
+function recopilarCurso(){
+    //Recopila la informacion de la interfaz y devuelve el curso
     cargarHorario(turnoactual);
     let formcurso= document.getElementById('datosCurso');    
     if(formcurso.nombre.value == ""){
         window.alert("Ingrese nombre del curso");
         return;
     }
-    let Cturnos= Array.from(document.getElementsByClassName('turno'));
+    let elementosTurno= Array.from(document.getElementsByClassName('turno'));
     let Crestricciones= [];
     let nuevosTurnos= [];
-    for(let i= 0; i< Cturnos.length; i++){
-        let turno = Cturnos[i];
+    for(let i= 0; i< elementosTurno.length; i++){
+        let turno = elementosTurno[i];
         if(turno.docente.value == "" || turno.aula.value == ""){
             document.getElementById("btn" + i).click();
             window.alert("Complete los datos de este turno"); 
@@ -181,8 +219,8 @@ function actualizarCurso(){
             window.alert("Cargue los horarios de este turno");            
             return;
         }
-        ///*******//*/*/*/*/*/*//////// */
-        let nuevoturno= new Turno('A',turno.aula.value,turno.docente.value,CursoTurnos[i].horas);
+        //Actualiza todos los turnos
+        let nuevoturno= new Turno(turno.letra.value,turno.aula.value,turno.docente.value,CursoTurnos[i].horas);
         nuevosTurnos.push(nuevoturno);
         if(turno.preferencia.checked){
             Crestricciones.push(i);
@@ -190,53 +228,5 @@ function actualizarCurso(){
     }
     c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];
-    console.log(c);
-    let cursos = JSON.parse(localStorage.getItem('cursos'));    
-    cursos[_indiceCurso]= c;
-    localStorage.setItem('cursos', JSON.stringify(cursos));
-    navegar("../index.html");
-}
-
-///Falta Editar
-function guardarCurso(){
-    //datosCurso y turno
-    cargarHorario(turnoactual);
-    let formcurso= document.getElementById('datosCurso');    
-    if(formcurso.nombre.value == ""){
-        window.alert("Ingrese nombre del curso");
-        return;
-    }
-    let Cturnos= Array.from(document.getElementsByClassName('turno'));
-    let Caulas= [];
-    let Cdocentes = [];
-    let Crestricciones= [];
-    for(let i= 0; i< Cturnos.length; i++){
-        let turno = Cturnos[i];
-        if(turno.docente.value == "" || turno.aula.value == ""){
-            document.getElementById("btn" + i).click();
-            window.alert("Complete los datos de este turno"); 
-            return;
-        }
-        if(CursoTurnos[i].length == 0){
-            document.getElementById("btn" + i).click();
-            window.alert("Cargue los horarios de este turno");            
-            return;
-        }
-        Cdocentes.push(turno.docente.value);
-        Caulas.push(turno.aula.value);
-        if(turno.preferencia.checked){
-            Crestricciones.push(i);
-        }
-    }
-    c= new Curso(formcurso.nombre.value,Caulas,CursoTurnos,Cdocentes,formcurso.obligatorio.checked);
-    c.preferencias= [...Crestricciones];
-    console.log(c);
-    let cursos = JSON.parse(localStorage.getItem('cursos'));
-    if(cursos == null){
-        cursos=[];
-    }
-    cursos.push(c);
-    localStorage.setItem('cursos', JSON.stringify(cursos));
-    navegar("../index.html");
-    //cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
+    return c;
 }
