@@ -9,8 +9,8 @@ var campo = `
 <input class="celda" type="checkbox" name="preferencia">
 `;
 
-var Choras= [];
-var horas=[];
+var CursoTurnos= []; //Contiene los turnos del curso en ese instante
+var horas=[]; //Las horas seleccionadas en la tabla de colores
 var turnoactual= 0;
 var _indiceCurso;
 
@@ -42,9 +42,10 @@ function editarCurso(indice){
     console.log(curso);
     formcurso.nombre.value= curso.nombre;
     formcurso.obligatorio.checked= curso.obligatorio;
-    Choras= [...curso.horas];   
-    horas= Choras[turnoactual];
-    let nturnos= Choras.length; 
+    CursoTurnos= [...curso.turnos];   
+    horas= CursoTurnos[turnoactual].horas;
+    let nturnos= CursoTurnos.length;
+
     
     for(let i= 0; i< nturnos; i++){
         agregarTurnoDatos(curso.docente[i], curso.aula[i], curso.preferencias.includes(i), i);
@@ -53,15 +54,17 @@ function editarCurso(indice){
 
 function cargarHorario(turno){
     //let anterior = Choras[turnoactual];
-    Choras[turnoactual]= [...horas];
+    CursoTurnos[turnoactual].horas= [...horas];
     let copiahoras= [...horas];
+    //Quita las horas del anterior turno
     copiahoras.forEach(function(hora){
         quitarhora(hora);
     });
     document.getElementsByClassName('turno')[turnoactual].style= "";
     turnoactual= turno;
     document.getElementsByClassName('turno')[turno].style.backgroundColor = "yellow";
-    let nuevos = Choras[turno];
+    //Carga Las nuevas horas
+    let nuevos = CursoTurnos[turno].horas;
     nuevos.forEach(function(hora){
         agregarhora(hora);
     });
@@ -93,7 +96,7 @@ function agregarTurnoDatos(docente, aula, preferencia, indice){
 function agregarTurno(){
     let campos= document.getElementById('listaTurnos');
     let curso= document.createElement('form');
-    let nro= Choras.length;
+    let nro= CursoTurnos.length;
     curso.innerHTML= campo;
     curso.className= "turno";
     let btn= document.createElement("button");
@@ -105,7 +108,7 @@ function agregarTurno(){
         cargarHorario(this.id.substring(3));
     };
     curso.appendChild(btn);
-    Choras.push([]);    
+    CursoTurnos.push([]);    
     campos.appendChild(curso);
 }
 
@@ -164,9 +167,8 @@ function actualizarCurso(){
         return;
     }
     let Cturnos= Array.from(document.getElementsByClassName('turno'));
-    let Caulas= [];
-    let Cdocentes = [];
     let Crestricciones= [];
+    let nuevosTurnos= [];
     for(let i= 0; i< Cturnos.length; i++){
         let turno = Cturnos[i];
         if(turno.docente.value == "" || turno.aula.value == ""){
@@ -174,18 +176,19 @@ function actualizarCurso(){
             window.alert("Complete los datos de este turno"); 
             return;
         }
-        if(Choras[i].length == 0){
+        if(CursoTurnos[i].horas.length == 0){
             document.getElementById("btn" + i).click();
             window.alert("Cargue los horarios de este turno");            
             return;
         }
-        Cdocentes.push(turno.docente.value);
-        Caulas.push(turno.aula.value);
+        ///*******//*/*/*/*/*/*//////// */
+        let nuevoturno= new Turno('A',turno.aula.value,turno.docente.value,CursoTurnos[i].horas);
+        nuevosTurnos.push(nuevoturno);
         if(turno.preferencia.checked){
             Crestricciones.push(i);
         }
     }
-    c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
+    c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];
     console.log(c);
     let cursos = JSON.parse(localStorage.getItem('cursos'));    
@@ -194,6 +197,7 @@ function actualizarCurso(){
     navegar("../index.html");
 }
 
+///Falta Editar
 function guardarCurso(){
     //datosCurso y turno
     cargarHorario(turnoactual);
@@ -213,7 +217,7 @@ function guardarCurso(){
             window.alert("Complete los datos de este turno"); 
             return;
         }
-        if(Choras[i].length == 0){
+        if(CursoTurnos[i].length == 0){
             document.getElementById("btn" + i).click();
             window.alert("Cargue los horarios de este turno");            
             return;
@@ -224,7 +228,7 @@ function guardarCurso(){
             Crestricciones.push(i);
         }
     }
-    c= new Curso(formcurso.nombre.value,Caulas,Choras,Cdocentes,formcurso.obligatorio.checked);
+    c= new Curso(formcurso.nombre.value,Caulas,CursoTurnos,Cdocentes,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];
     console.log(c);
     let cursos = JSON.parse(localStorage.getItem('cursos'));

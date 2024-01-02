@@ -1,13 +1,26 @@
 //Manejo de Cursos
 
 class Curso{
-    constructor(nombre, aula, horas, docente, obligatorio){
-        this.nombre= nombre; //Nombre del curso - string
-        this.aula= aula; //Aulas de los turnos - string[]         A     B     C
-        this.horas= horas; //Horas de los turnos - int[][] ej: [[1,6],[2,5],[3,8]]
-        this.docente= docente; // Docente de cada turno - String[]
-        this.obligatorio= obligatorio; // Si el curso es obligatorio - bool[]
+    constructor(nombre, turnos, obligatorio){
+        if(nombre != undefined){
+            this.nombre= nombre//Nombre del curso - string
+        }
+        if(nombre != undefined){
+            this.turnos= turnos
+        }
+        if(nombre != undefined){
+            this.obligatorio= obligatorio// Si el curso es obligatorio - bool[]
+        }
         this.preferencias = [];
+    }
+}
+
+class Turno{
+    constructor(letra,aula,docente,horas){
+        this.letra= letra; //Letra representativa del turno
+        this.aula= aula; //Aulas de los turnos - string
+        this.docente= docente; // Docente de cada turno - String
+        this.horas= horas; //Horas de los turnos - int[] ej [1,6,2,5]
     }
 }
 
@@ -55,12 +68,12 @@ function cargarCursos(){
         });
         for(let i= 0; i< curso.horas.length; i++){
             let opcion= document.createElement('option');
-            opcion.text= letra[i+1];
+            opcion.text= curso.letra;
             opcion.value= i;
             turnos.appendChild(opcion);
         }
         let lblprof= document.createElement('label');
-        lblprof.textContent= curso.docente[0];
+        lblprof.textContent= curso.turnos[0].docente;
         lblprof.setAttribute('id', "p-" + i);
 
         let btneditar= document.createElement('button');
@@ -102,26 +115,21 @@ function llenarHorario(){
     let i= 0;
     cursos.forEach(function(curso){
         let turno= document.getElementById('s-' + i).value;
-        curso.horas[turno].forEach(function(hora){
+        curso.turnos[turno].horas.forEach(function(hora){
             bloque= document.getElementById("hora" + hora);
             if(bloque.textContent != ""){
                 //Si es que hay cruce
                 bloque.style.color="red";
             }
             //Muestra el aula del turno en el horario y el profesor en la lista de turnos
-            bloque.innerHTML= bloque.innerHTML + curso.nombre + "(" + curso.aula[turno] + ")" + "<br>";
-            document.getElementById("p-"+i).textContent= curso.docente[turno];
+            bloque.innerHTML= bloque.innerHTML + curso.nombre + "(" + curso.turnos[turno].aula + ")" + "<br>";
+            document.getElementById("p-"+i).textContent= curso.turnos[turno].docente;
         });
         i++;
     })
 }
 
-//
-//
-//
-//
-//
-function evaluarHorario(turnos){
+function evaluarHorario(propuestos){
     //turnos = turnos propuestos a evaluar ej [0,1,2,3,0,0] -> Turno A , Turno B, ...
     //Evalua que tan bueno es el horario y si cumple con las restricciones
     let horasllenas=[]; //Horas que tienen asignadas un curso int[] Horas ocupadas
@@ -130,8 +138,8 @@ function evaluarHorario(turnos){
     let boolprof= true; //Si es que los requerimientos de docente (turno) se cumplen
     //boolprof es true por defecto hasta q se demuestre lo contrario
     for(let i= 0; i< ncursos; i++){
-        let turno= turnos[i]; //El turno del curso i  
-        let horas= cursos[i].horas[turno]; //Las horas del curso i en el turno - int[]
+        let turno= propuestos[i]; //El turno del curso i  
+        let horas= cursos[i].turnos[turno].horas; //Las horas del curso i en el turno - int[]
         let preferencias=cursos[i].preferencias;
         horasllenas.push(...horas); //Agrega las horas del curso a las horas llenas
         canthoras+= horas.length; //Suma la cantidad de horas necesarias
@@ -178,14 +186,13 @@ function generarHorarios(){
     cursos.forEach(function(curso){
         //añade como elemento i al arreglo de turno el numero de turnos -1
         //si esque hubiese tres turnos se agrega 2
-        turnos.push(curso.docente.length - 1);
+        turnos.push(curso.turnos.length - 1);
     })
     //crea un array con la misma longitud
     let arregloGenerado = new Array(turnos.length);
     //inicia la funcion recursiva
     setTimeout(function() {
         hacerCombinaciones(turnos, arregloGenerado, 0); // Oculta el modal cuando se completa el proceso largo
-        console.log("Desbloqueando");
         overlay.style.display = 'none';
         modal.style.display = 'none';
         if(posibles.length==0){
@@ -210,11 +217,7 @@ function cargarTurnos(turnos){
     actualizar();
 }
 
-//
-//
-//
-//
-//
+
 function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
     //Función recursiva que examina cada posible horario
     /*if(max <= 0){
@@ -232,9 +235,9 @@ function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
             //Si es que no tiene cruces y cumple con los turnos restringidos
             //Lo agrega al arreglo de posibles horarios
             posibles.push([...arregloGenerado]);
-            //max--;
-            return;
-        }        
+            //max--;            
+        }
+        return;   
     }
 
     for (let i = 0; i <= arregloOriginal[indice]; i++) {
