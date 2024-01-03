@@ -126,7 +126,7 @@ function agregarTurno(){
         cargarHorario(this.id.substring(3));
     };
     filaTurno.appendChild(btn);
-    CursoTurnos.push([]);    
+    CursoTurnos.push(new Turno("","","",[]));    
     campos.appendChild(filaTurno);
 }
 
@@ -180,18 +180,26 @@ function generarBloquesFunc(){
 }
 
 function actualizarCurso(){
-    let cursos = JSON.parse(localStorage.getItem('cursos'));    
-    cursos[_indiceCurso]= recopilarCurso();
+    let cursos = JSON.parse(localStorage.getItem('cursos'));
+    cursoRecopilado= recopilarCurso();
+    if(cursoRecopilado == null){
+        return;
+    }
+    cursos[_indiceCurso]= cursoRecopilado;
     localStorage.setItem('cursos', JSON.stringify(cursos));
     navegar("../index.html");
 }
 
-function guardarCurso(){   
+function guardarCurso(){
+    cursoRecopilado= recopilarCurso();
+    if(cursoRecopilado == null){
+        return;
+    }
     let cursos = JSON.parse(localStorage.getItem('cursos'));
     if(cursos == null){
         cursos=[];
     }
-    cursos.push(recopilarCurso());
+    cursos.push(cursoRecopilado);
     localStorage.setItem('cursos', JSON.stringify(cursos));
     navegar("../index.html");
 }
