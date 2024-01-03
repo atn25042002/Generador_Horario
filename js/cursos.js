@@ -205,7 +205,6 @@ function generarHorarios(){
         window.alert("Horario generado - " + nrohorario);
     }, 1000);
     //carga el primer horario posible
-    
 }
 
 function cargarTurnos(turnos){
