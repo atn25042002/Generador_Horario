@@ -31,10 +31,10 @@ window.addEventListener('beforeunload', function () {
     localStorage.setItem('cursos', JSON.stringify(cursos));
 })
 
-function eliminarCurso(curso){
-    var confirmacion = confirm("¿Eliminar curso de " + cursos[curso].nombre + "?");
+function eliminarCurso(indiceCurso){
+    var confirmacion = confirm("¿Eliminar curso de " + cursos[indiceCurso].nombre + "?");
     if (confirmacion) {
-        cursos.splice(curso,1);
+        cursos.splice(indiceCurso,1);
         document.getElementById("turnos").innerHTML= '';
         cargarCursos();
         actualizar();

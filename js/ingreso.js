@@ -1,3 +1,5 @@
+//Procesos de la pagina de Editar y crear nuevo Turno
+
 var campo = `
 <select class="celda" name="letra">
     <option value="A">A</option>
@@ -34,7 +36,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if( curso != undefined){
         _indiceCurso= curso;
         editarCurso(curso);
-        document.getElementById("btnguardar").setAttribute('onclick',"actualizarCurso()")
+        //document.getElementById("btnguardar").setAttribute('onclick',"actualizarCurso()")
+        document.getElementById("btnguardar").onclick = function () {
+            actualizarCurso();
+            navegar("../index.html");
+        };
     }else{
         agregarTurno();
     }
@@ -52,6 +58,7 @@ function editarCurso(indice){
     let cursos= JSON.parse(localStorage.getItem('cursos'));
     let curso= cursos[indice];
     //Carga el formulario principal
+    document.getElementById("tituloCurso").textContent= "EDITANDO " + curso.nombre.toUpperCase();
     formcurso.nombre.value= curso.nombre;
     formcurso.obligatorio.checked= curso.obligatorio;
     CursoTurnos= [...curso.turnos];   
@@ -90,20 +97,32 @@ function agregarTurnoDatos(turno, preferencia, indice){
     let nro= indice;
     filaTurno.innerHTML= campo;
     filaTurno.className= "turno";
+    filaTurno.id= "turno-" + indice;
     filaTurno.letra.value= turno.letra;
     filaTurno.docente.value= turno.docente;
     filaTurno.aula.value= turno.aula;
     filaTurno.preferencia.checked= preferencia;
 
-    let btn= document.createElement("button");
-    btn.textContent="Modificar Horario";
-    btn.id= "btn" + nro;
-    btn.className= "celda";
-    btn.type= "button";
-    btn.onclick = function () {
+    let btnModificar= document.createElement("button");
+    btnModificar.textContent="Modificar Horario";
+    btnModificar.id= "btn" + nro;
+    btnModificar.className= "celda";
+    btnModificar.type= "button";
+    btnModificar.onclick = function () {
         cargarHorario(this.id.substring(3));
     };
-    filaTurno.appendChild(btn);
+
+    let btnEliminar= document.createElement('button');
+    btnEliminar.textContent= "X";
+    btnEliminar.setAttribute('id', "b-" + nro);
+    btnEliminar.className= "celda";
+    btnEliminar.type= "button";
+    btnEliminar.onclick = function () {
+        eliminarTurno(this.id.substring(2));
+    };
+
+    filaTurno.appendChild(btnModificar);
+    filaTurno.appendChild(btnEliminar)
     campos.appendChild(filaTurno);
 }
 
@@ -114,18 +133,29 @@ function agregarTurno(){
     let filaTurno= document.createElement('form');
     filaTurno.innerHTML= campo;
     filaTurno.className= "turno";
+    filaTurno.id= "turno-" + nro;
     if(nro < 8){
         filaTurno.letra.value= letra[nro + 1];
     }    
-    let btn= document.createElement("button");
-    btn.textContent="Modificar Horario";
-    btn.id= "btn" + nro;
-    btn.className= "celda";
-    btn.type= "button";
-    btn.onclick = function () {
+    let btnModificar= document.createElement("button");
+    btnModificar.textContent="Modificar Horario";
+    btnModificar.id= "btn" + nro;
+    btnModificar.className= "celda";    
+    btnModificar.type= "button";
+    btnModificar.onclick = function () {
         cargarHorario(this.id.substring(3));
     };
-    filaTurno.appendChild(btn);
+    let btnEliminar= document.createElement('button');
+    btnEliminar.textContent= "X";
+    btnEliminar.setAttribute('id', "b-" + nro);
+    btnEliminar.className= "celda";
+    btnEliminar.type= "button";
+    btnEliminar.onclick = function () {
+        eliminarTurno(this.id.substring(2));
+    };
+
+    filaTurno.appendChild(btnModificar);
+    filaTurno.appendChild(btnEliminar)
     CursoTurnos.push(new Turno("","","",[]));    
     campos.appendChild(filaTurno);
 }
@@ -180,6 +210,7 @@ function generarBloquesFunc(){
 }
 
 function actualizarCurso(){
+    //Actualiza un curso ya ingresado
     let cursos = JSON.parse(localStorage.getItem('cursos'));
     cursoRecopilado= recopilarCurso();
     if(cursoRecopilado == null){
@@ -187,10 +218,11 @@ function actualizarCurso(){
     }
     cursos[_indiceCurso]= cursoRecopilado;
     localStorage.setItem('cursos', JSON.stringify(cursos));
-    navegar("../index.html");
+    //navegar("../index.html");
 }
 
 function guardarCurso(){
+    //Guardar un nuevo Curso
     cursoRecopilado= recopilarCurso();
     if(cursoRecopilado == null){
         return;
@@ -237,4 +269,23 @@ function recopilarCurso(){
     c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];
     return c;
+}
+
+function eliminarTurno(indice){
+    var confirmacion = confirm("¿Eliminar turno?" + indice);
+    if (confirmacion) {
+        cargarHorario(indice);
+        /*let elemento= document.getElementById("turno-" + indice);
+        if(elemento){
+            console.log(elemento);
+            elemento.remove();
+        }*/
+        let cursoRecopilado= recopilarCurso();
+        cursoRecopilado.turnos.splice(indice,1);
+        //CursoTurnos.splice(indice,1);
+        let cursos = JSON.parse(localStorage.getItem('cursos'));
+        cursos[_indiceCurso]= cursoRecopilado;
+        localStorage.setItem('cursos', JSON.stringify(cursos));
+        navegar(new URL(window.location.href));
+    }
 }
