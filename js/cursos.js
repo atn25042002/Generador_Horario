@@ -130,20 +130,16 @@ function llenarHorario(){
     })
 }
 
-function evaluarHorario(propuestos){
+function evaluarHorario(propuestos){ //Usar
     //turnos = turnos propuestos a evaluar ej [0,1,2,3,0,0] -> Turno A , Turno B, ...
     //Evalua que tan bueno es el horario y si cumple con las restricciones
-    let horasllenas=[]; //Horas que tienen asignadas un curso int[] Horas ocupadas
-    let canthoras = 0; // int
+
     let ncursos= cursos.length; //Numero de cursos - int
     let boolprof= true; //Si es que los requerimientos de docente (turno) se cumplen
     //boolprof es true por defecto hasta q se demuestre lo contrario
     for(let i= 0; i< ncursos; i++){
-        let turno= propuestos[i]; //El turno del curso i  
-        let horas= cursos[i].turnos[turno].horas; //Las horas del curso i en el turno - int[]
+        let turno= propuestos[i]; //El turno del curso i
         let preferencias=cursos[i].preferencias;
-        horasllenas.push(...horas); //Agrega las horas del curso a las horas llenas
-        canthoras+= horas.length; //Suma la cantidad de horas necesarias
         if (preferencias.length > 0) {
             //Vefirica si es que el curso tiene alguna restriccion de turno
             if(!preferencias.includes(turno)){
@@ -152,16 +148,8 @@ function evaluarHorario(propuestos){
                 break;
             }
         }
-    }    
-    let horasunicas= new Set(horasllenas); //Crea un set para que se eliminen las horas repetidas
-    let datos=[canthoras - horasunicas.size, boolprof];
-    //Halla la diferencia entre las horas necesarias y las horas sin repetirse
-    //Si hay menos es porque hay algun cruce
-    //al final retorna un arreglo con dos datos
-    //datos[0]: Horas de cruce
-    //datos[1]: Bool que indica si es que se cumplen los requisitos del turno
-    //return datos[0] && datos[1]
-    return (datos);
+    }
+    return boolprof;
 }
 
 function generarHorarios(){
@@ -193,7 +181,10 @@ function generarHorarios(){
     let arregloGenerado = new Array(turnos.length);
     //inicia la funcion recursiva
     setTimeout(function() {
-        hacerCombinaciones(turnos, arregloGenerado, 0); // Oculta el modal cuando se completa el proceso largo
+        turnosArray= [];
+        horasSet= new Set();
+        hacerPermutaciones(turnosArray,horasSet,0);  
+
         overlay.style.display = 'none';
         modal.style.display = 'none';
         if(posibles.length==0){
@@ -217,32 +208,42 @@ function cargarTurnos(turnos){
     actualizar();
 }
 
+function hacerPermutaciones(turnos, setEntrada, indice){
+    //Array, Set, int
 
-function hacerCombinaciones(arregloOriginal, arregloGenerado, indice) {
-    //Función recursiva que examina cada posible horario
-    /*if(max <= 0){
-        //Se controla el maximo de horarios
-        console.log("Maximo alcanzado");
+    if (indice === cursos.length) {
+        posibles.push([...turnos]);
         return;
-    }*/
+    }
 
-    if (indice === arregloOriginal.length) {
-        //Si es que el indice que se varia es igual a la longitud es porque ya se modifico
-        //todo el arreglo
-        let cruces= evaluarHorario(arregloGenerado);
-        //Evalua el horario
-        if(cruces[0]== 0 && cruces[1]){
-            //Si es que no tiene cruces y cumple con los turnos restringidos
-            //Lo agrega al arreglo de posibles horarios
-            posibles.push([...arregloGenerado]);
-            //max--;            
+    let maxturnos= cursos[indice].turnos.length; //Cantidad de turnos
+    for (let i = 0; i < maxturnos; i++) {
+        setHoras= new Set(setEntrada); // Crea una copia del set de Entrada
+        nuevosTurnos= [...turnos];
+        let setHorasTurno= new Set(cursos[indice].turnos[i].horas);
+        if(tieneCruce(setHorasTurno,setHoras)){ //Si es que tienen alguno en comun
+            continue; //Pasa a la siguiente rama
         }
-        return;   
+        //setHoras.union(new Set(cursos[indice].turnos[i].horas)); //Carga los elementos del Turno
+        setHorasTurno.forEach(elemento => {
+            setHoras.add(elemento);
+        });
+        nuevosTurnos.push(i); //Agrega el turno si no hay cruce
+        hacerPermutaciones(nuevosTurnos, setHoras, indice + 1);
     }
+}
 
-    for (let i = 0; i <= arregloOriginal[indice]; i++) {
-        //Por cada indice prueba las combinaciones posibles
-        arregloGenerado[indice] = i;
-        hacerCombinaciones(arregloOriginal, arregloGenerado, indice + 1);
-    }
+function tieneCruce(set1, set2) {
+    /*// Convierte los arrays a Sets para optimizar la búsqueda
+    //De preferencia que el set1 sea el pequeño
+    const set1 = new Set(array1);
+    const set2 = new Set(array2);*/
+  
+    // Verifica si hay intersección entre los sets
+    for (const elemento of set1) {
+      if (set2.has(elemento)) {
+        return true;
+      }
+    }  
+    return false;  
 }
