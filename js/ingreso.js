@@ -19,7 +19,7 @@ var campo = `
 <input class="celda" type="text" name="aula" placeholder="Nombre del aula" required>
 
 <label class="celda" for="preferencia">Preferencia:</label>
-<input class="celda" type="checkbox" name="preferencia">
+<input class="celda" type="checkbox" name="preferencia" checked>
 `;
 
 var CursoTurnos= []; //Contiene los turnos del curso en ese instante
@@ -67,7 +67,7 @@ function editarCurso(indice){
     
     for(let i= 0; i< nturnos; i++){
         //Carga los turnos del curso en los campos de los fomularios
-        agregarTurnoDatos(curso.turnos[i], curso.preferencias.includes(i), i);
+        agregarTurnoDatos(curso.turnos[i], i);
     }
 }
 
@@ -90,7 +90,7 @@ function cargarHorario(turno){
     });
 }
 
-function agregarTurnoDatos(turno, preferencia, indice){
+function agregarTurnoDatos(turno, indice){
     //Crea un campo de turno con los datos indicados.
     let campos= document.getElementById('listaTurnos');
     let filaTurno= document.createElement('form');
@@ -101,7 +101,7 @@ function agregarTurnoDatos(turno, preferencia, indice){
     filaTurno.letra.value= turno.letra;
     filaTurno.docente.value= turno.docente;
     filaTurno.aula.value= turno.aula;
-    filaTurno.preferencia.checked= preferencia;
+    filaTurno.preferencia.checked= turno.preferencia;
 
     let btnModificar= document.createElement("button");
     btnModificar.textContent="Modificar Horario";
@@ -260,11 +260,11 @@ function recopilarCurso(){
             return;
         }
         //Actualiza todos los turnos
-        let nuevoturno= new Turno(turno.letra.value,turno.aula.value,turno.docente.value,CursoTurnos[i].horas);
+        let nuevoturno= new Turno(turno.letra.value,turno.aula.value,turno.docente.value,CursoTurnos[i].horas,turno.preferencia.checked);
         nuevosTurnos.push(nuevoturno);
-        if(turno.preferencia.checked){
+        /*if(turno.preferencia.checked){
             Crestricciones.push(i);
-        }
+        }*/
     }
     c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.obligatorio.checked);
     c.preferencias= [...Crestricciones];

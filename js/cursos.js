@@ -11,16 +11,17 @@ class Curso{
         if(nombre != undefined){
             this.obligatorio= obligatorio// Si el curso es obligatorio - bool[]
         }
-        this.preferencias = [];
+        //this.preferencias = [];
     }
 }
 
 class Turno{
-    constructor(letra,aula,docente,horas){
+    constructor(letra,aula,docente,horas, preferencia){
         this.letra= letra; //Letra representativa del turno
         this.aula= aula; //Aulas de los turnos - string
         this.docente= docente; // Docente de cada turno - String
         this.horas= horas; //Horas de los turnos - int[] ej [1,6,2,5]
+        this.preferencia= preferencia; //Si el turno debe ser tomado en cuenta - bool
     }
 }
 
