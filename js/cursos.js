@@ -154,6 +154,10 @@ function evaluarHorario(propuestos){ //Usar
 }
 
 function generarHorarios(){
+    if(cursos.length==0){
+        window.alert("Ingrese los cursos, primero")
+        return;
+    }
     if(nrohorario >= 0){
         /*nrohorario++;
         if(nrohorario == max){
@@ -184,7 +188,9 @@ function generarHorarios(){
     setTimeout(function() {
         turnosArray= [];
         horasSet= new Set();
-        hacerPermutaciones(turnosArray,horasSet,0);  
+        console.time('miFuncion');
+        hacerPermutaciones(turnosArray,horasSet,0);
+        console.timeEnd('miFuncion');
 
         overlay.style.display = 'none';
         modal.style.display = 'none';
@@ -222,7 +228,7 @@ function hacerPermutaciones(turnos, setEntrada, indice){
         setHoras= new Set(setEntrada); // Crea una copia del set de Entrada
         nuevosTurnos= [...turnos];
         let setHorasTurno= new Set(cursos[indice].turnos[i].horas);
-        if(tieneCruce(setHorasTurno,setHoras)){ //Si es que tienen alguno en comun
+        if(!cursos[indice].turnos[i].preferencia ||tieneCruce(setHorasTurno,setHoras)){ //Si es que tienen alguno en comun
             continue; //Pasa a la siguiente rama
         }
         //setHoras.union(new Set(cursos[indice].turnos[i].horas)); //Carga los elementos del Turno
