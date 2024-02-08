@@ -23,7 +23,15 @@ document.addEventListener("DOMContentLoaded", function() {
     //restricciones[3]= [0];
     generarBloques();
     cargarCursos();
-    llenarHorario();
+    llenarHorario();    
+
+    document.getElementById('nrohorario').addEventListener('change', function() {
+        //Cada q cambia el valor del nro horario.
+        if(this.value % 1 == 0 && this.value<= posibles.length){
+            cargarTurnos(posibles[this.value-1]);
+        }        
+    });
+
 });
 
 window.addEventListener('beforeunload', function () {

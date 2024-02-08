@@ -163,10 +163,15 @@ function generarHorarios(){
         if(nrohorario == max){
             nrohorario= 0;
         }*/
-        nrohorario= Math.floor(Math.random() * (posibles.length));
-        cargarTurnos(posibles[nrohorario]);
-        window.alert("Horario generado - " + nrohorario);
-        return;
+        var confirmacion = confirm("Ya hay horarios generados\n¿Deseas generar horarios?");
+        if (!confirmacion) {
+            return;
+        }
+    }else{
+        var confirmacion = confirm("¿Deseas generar horarios?");
+        if (!confirmacion) {
+            return;
+        }
     }
     //console.log(posibles);
     //console.log("generando horarios");
@@ -200,7 +205,7 @@ function generarHorarios(){
         }
         cargarTurnos(posibles[0]);
         nrohorario++;
-        window.alert("Horario generado - " + nrohorario);
+        window.alert("Horario generados:  " + posibles.length + "\nMostrando el primer horario");
     }, 1000);
     //carga el primer horario posible
 }
