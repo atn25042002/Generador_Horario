@@ -29,7 +29,10 @@ document.addEventListener("DOMContentLoaded", function() {
         //Cada q cambia el valor del nro horario.
         if(this.value % 1 == 0 && this.value<= posibles.length){
             cargarTurnos(posibles[this.value-1]);
-        }        
+            this.style.color="black";
+        }else{
+            this.style.color="red";
+        }
     });
 
 });

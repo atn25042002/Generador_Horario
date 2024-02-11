@@ -26,18 +26,19 @@
                 <button onclick="navegar('./pages/ingreso.html')"> Ingresar Curso</button>
                 <br>
             </div>
-            <div id="botones">
+            <div id="botones" class="cols">
                 <input type="file" id="jsonFileInput" accept=".json">
                 <button onclick="cargarArchivoJSON()">Importar Cursos</button>
                 <br>
                 <button onclick="descargarDatos()"> Exportar Cursos </button>
                 <br>
-
             </div>
         </div>
         <div id="divHorario" class="cols">
             <button onclick="generarHorarios()"> Generar Horario </button>
+            <label for="nrohorario" id="lblnrohorario"">Nro. Horario (No Generados)</label>
             <input type="number" id="nrohorario" name="nrohorario" min="1" max="50000">
+            
             <br>
             <table id="horarioTable">
                 <thead>

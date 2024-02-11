@@ -124,6 +124,10 @@ th {
     margin: 0 30px 5px;
 }
 
+input[type="number"] {
+    text-align: center;
+}
+
 /*#horarioHora{
     width: 65px;
 }*/

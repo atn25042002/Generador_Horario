@@ -56,6 +56,7 @@ var max= 20; //Maximo de horarios
 function cargarCursos(){
     //Carga los cursos registrados con sus turnos
     let lstcursos= document.getElementById("turnos");
+    lstcursos.innerHTML='';
     let i= 0;
     cursos.forEach(function(curso){
         let fila= document.createElement('div');
@@ -199,12 +200,15 @@ function generarHorarios(){
 
         overlay.style.display = 'none';
         modal.style.display = 'none';
+        let lblnrohorario= document.getElementById("lblnrohorario");
         if(posibles.length==0){
+            lblnrohorario.textContent= 'Nro. Horario (No Generados)';
             window.alert("No esposible generar un horario")
             return;
         }
         cargarTurnos(posibles[0]);
         nrohorario++;
+        lblnrohorario.textContent= 'Nro. Horario (máx. ' + posibles.length + ')';
         window.alert("Horario generados:  " + posibles.length + "\nMostrando el primer horario");
     }, 1000);
     //carga el primer horario posible
