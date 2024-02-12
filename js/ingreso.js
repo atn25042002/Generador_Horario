@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
             navegar("../index.html");
         };
     }else{
+        _indiceCurso= -1;
         agregarTurno();
     }
     cargarHorario(0);
@@ -126,6 +127,21 @@ function agregarTurnoDatos(turno, indice){
     campos.appendChild(filaTurno);
 }
 
+function acomodarAcciones(anterior, posterior){
+    //Acomoda las acciones de los botones en base a dos indices anterior y posterior
+    let btnModificar= document.getElementById("btn" + anterior);
+    btnModificar.id= "btn" + posterior;
+    btnModificar.onclick = function () {
+        cargarHorario(this.id.substring(3));
+    };
+
+    let btnEliminar=  document.getElementById("b-" + anterior);
+    btnEliminar.setAttribute('id', "b-" + posterior);
+    btnEliminar.onclick = function () {
+        eliminarTurno(this.id.substring(2));
+    };
+}
+
 function agregarTurno(){
     //Agrega un nuevo campo para un turno nuevo
     let nro= CursoTurnos.length;    
@@ -158,6 +174,42 @@ function agregarTurno(){
     filaTurno.appendChild(btnEliminar)
     CursoTurnos.push(new Turno("","","",[]));    
     campos.appendChild(filaTurno);
+}
+
+function eliminarTurno(indice){
+    var confirmacion = confirm("¿Eliminar turno?");
+    
+    if (confirmacion) {
+        let campos= document.getElementById('listaTurnos');
+        let nturnos= CursoTurnos.length;
+        if(nturnos== 1){
+            agregarTurno();
+        }
+        if(indice == turnoactual){
+            if(turnoactual == 0){
+                cargarHorario(1);
+                turnoactual= 0;
+            }else{
+                cargarHorario(turnoactual-1);
+            }            
+        }        
+        campos.innerHTML= '';
+
+        CursoTurnos.splice(indice,1);
+        for(let i= 0; i< nturnos-1; i++){
+            //Carga los turnos del curso en los campos de los fomularios
+            agregarTurnoDatos(CursoTurnos[i], i);
+        }
+
+        if(indice < turnoactual){
+            turnoactual--;
+            cargarHorario(turnoactual);
+        }else if(indice == turnoactual){
+            cargarHorario(0);
+        }else{
+            cargarHorario(turnoactual);
+        }
+    }
 }
 
 function agregarhora(hora){
@@ -216,6 +268,9 @@ function actualizarCurso(){
     if(cursoRecopilado == null){
         return;
     }
+    
+
+    
     cursos[_indiceCurso]= cursoRecopilado;
     localStorage.setItem('cursos', JSON.stringify(cursos));
     //navegar("../index.html");
@@ -227,6 +282,7 @@ function guardarCurso(){
     if(cursoRecopilado == null){
         return;
     }
+    
     let cursos = JSON.parse(localStorage.getItem('cursos'));
     if(cursos == null){
         cursos=[];
@@ -245,7 +301,6 @@ function recopilarCurso(){
         return;
     }
     let elementosTurno= Array.from(document.getElementsByClassName('turno'));
-    let Crestricciones= [];
     let nuevosTurnos= [];
     for(let i= 0; i< elementosTurno.length; i++){
         let turno = elementosTurno[i];
@@ -267,25 +322,11 @@ function recopilarCurso(){
         }*/
     }
     c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.obligatorio.checked);
-    c.preferencias= [...Crestricciones];
+    c.turnos.forEach(t => {
+        let horasLimpias= t.horas.filter((valor, indice, array) => {
+            return array.indexOf(valor) === indice;
+          });
+        t.horas= horasLimpias;
+    });
     return c;
-}
-
-function eliminarTurno(indice){
-    var confirmacion = confirm("¿Eliminar turno?" + indice);
-    if (confirmacion) {
-        cargarHorario(indice);
-        /*let elemento= document.getElementById("turno-" + indice);
-        if(elemento){
-            console.log(elemento);
-            elemento.remove();
-        }*/
-        let cursoRecopilado= recopilarCurso();
-        cursoRecopilado.turnos.splice(indice,1);
-        //CursoTurnos.splice(indice,1);
-        let cursos = JSON.parse(localStorage.getItem('cursos'));
-        cursos[_indiceCurso]= cursoRecopilado;
-        localStorage.setItem('cursos', JSON.stringify(cursos));
-        navegar(new URL(window.location.href));
-    }
 }

@@ -117,6 +117,10 @@ function llenarHorario(){
     let bloque;
     let i= 0;
     cursos.forEach(function(curso){
+        if(!curso.obligatorio){
+            i++;
+            return;
+        }
         let turno= document.getElementById('s-' + i).value;
         curso.turnos[turno].horas.forEach(function(hora){
             bloque= document.getElementById("hora" + hora);
@@ -229,6 +233,14 @@ function hacerPermutaciones(turnos, setEntrada, indice){
 
     if (indice === cursos.length) {
         posibles.push([...turnos]);
+        return;
+    }
+
+    if(!cursos[indice].obligatorio){
+        setHoras= new Set(setEntrada); // Crea una copia del set de Entrada
+        nuevosTurnos= [...turnos];
+        nuevosTurnos.push(0);
+        hacerPermutaciones(nuevosTurnos, setHoras, indice + 1);
         return;
     }
 
