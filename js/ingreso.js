@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
     generarBloquesFunc();
     let url = new URL(window.location.href);
     let curso = url.searchParams.get("curso");
-    if( curso != undefined){
+    let cursos= JSON.parse(localStorage.getItem('cursos'));
+    if( curso != undefined && curso < cursos.length && cursos >= 0){
         _indiceCurso= curso;
         editarCurso(curso);
         //document.getElementById("btnguardar").setAttribute('onclick',"actualizarCurso()")

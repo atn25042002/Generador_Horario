@@ -31,28 +31,6 @@ var posibles= []; // Guarda los posibles horarios [[1,2,3] ,[1,1,1]]
 var nrohorario= -1; //Nro de horario posible
 var max= 20; //Maximo de horarios
 
-/*function generarBloques(){
-    //Genera el horario con dias y horas vacios
-    let tableBody = document.querySelector("#horarioTable tbody");
-    let sum= 0;
-    let n= 0;
-    intervalosHorarios.forEach(function(intervalo) {
-        let row = document.createElement("tr");
-        let cell = document.createElement("td");
-        cell.textContent = intervalo;
-        row.appendChild(cell);
-        for (var i = 0; i < 5; i++) {
-            cell = document.createElement("td");
-            n= i + 1 + sum;
-            cell.id= "hora" + n;
-            //cell.textContent = "Clase " + n;
-            row.appendChild(cell);
-        }
-        tableBody.appendChild(row);
-        sum+=5;
-    });
-}*/
-
 function cargarCursos(){
     //Carga los cursos registrados con sus turnos
     let lstcursos= document.getElementById("turnos");
@@ -263,11 +241,7 @@ function hacerPermutaciones(turnos, setEntrada, indice){
 }
 
 function tieneCruce(set1, set2) {
-    /*// Convierte los arrays a Sets para optimizar la búsqueda
-    //De preferencia que el set1 sea el pequeño
-    const set1 = new Set(array1);
-    const set2 = new Set(array2);*/
-  
+    //De preferencia que el set1 sea el pequeño  
     // Verifica si hay intersección entre los sets
     for (const elemento of set1) {
       if (set2.has(elemento)) {
