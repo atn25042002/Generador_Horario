@@ -24,11 +24,12 @@ function cargarArchivoJSON() {
 
         reader.onload = function(e) {
             try {
-                cursos= JSON.parse(e.target.result);                
-                input.value = '';
-                cargarCursos();
+                let listacursos= JSON.parse(e.target.result);
+                abrirMenuImportar(listacursos)                
+                /*cargarCursos();
                 actualizar();
-                window.alert("Cursos cargados")
+                window.alert("Cursos cargados")*/
+                input.value = '';
             } catch (error) {
                 window.alert("Error al cargar archivos");
             }

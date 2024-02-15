@@ -1,3 +1,5 @@
+var lstcheck= [];
+
 document.addEventListener("DOMContentLoaded", function() {
     /*cursos.push(new Curso("Metodos Numéricos", ["306","306","306"], [[16,21,26],[43,48,53],[28,33,38]],["Olha","Olha","Olha"], true));
     cursos.push(new Curso("Sistemas Operativos", ["306","306","306"], [[27,32,14,19],[51,56,44,49],[37,42,24,29]],["Karim","Aceituno","Karim"], true));
@@ -49,5 +51,46 @@ function eliminarCurso(indiceCurso){
         document.getElementById("turnos").innerHTML= '';
         cargarCursos();
         actualizar();
+    }
+}
+
+function abrirMenuImportar(lista){
+    let overlay = document.getElementById('miOverlay');
+    let modal = document.getElementById('modalImport');
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+    let lstimportcursos= document.getElementById("lstimportcursos");
+    lstcheck= [];
+    for(let i = 0; i< lista.length; i++){
+        let fila= document.createElement('div');
+        fila.setAttribute('class' , 'fila');
+        let lbl= document.createElement('label');
+        lbl.textContent= lista[i].nombre;
+        lbl.setAttribute('class', 'celda');
+        lbl.setAttribute('for', 'curso' + i);
+        let check= document.createElement('input');
+        check.setAttribute('class', 'celda');
+        check.type= 'checkbox';
+        check.name= lista[i].nombre;
+        check.id= 'curso' + i;
+        lstcheck.push(check);
+        fila.appendChild(lbl);
+        fila.appendChild(check);
+        lstimportcursos.appendChild(fila);
+    }
+}
+
+function cerrarMenuImportar(){
+    let overlay = document.getElementById('miOverlay');
+    let modal = document.getElementById('modalImport');
+    overlay.style.display = 'none';
+    modal.style.display = 'none';
+}
+
+function importarSeleccion(){
+    for(let i= 0; i< lstcheck.length; i++){
+        if(lstcheck[i].checked){
+            console.log(lstcheck[i].name);
+        }
     }
 }

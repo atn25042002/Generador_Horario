@@ -1,0 +1,37 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.218); /* Fondo semitransparente */
+    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+    display: none; /* Inicialmente oculto */
+}
+
+.modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    top: 50%; /* Centra verticalmente en la ventana */
+    left: 50%; /* Centra horizontalmente en la ventana */
+    transform: translate(-50%, -50%); /* Centra el modal */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10000; /* Asegura que esté por encima de otros elementos */
+    max-width: 80%; /* Ancho máximo del modal */
+    overflow-y: auto; /* Agrega barras de desplazamiento si el contenido es largo */
+}
+
+#lstimportcursos{
+    width: 99%;
+    height: 250px;
+    overflow-y: auto;
+    padding: 1px 1px 1px 1px;
+    margin: 2px 0px 10px;   
+}
+
+#lstimporbotones{
+    width: 99%
+}

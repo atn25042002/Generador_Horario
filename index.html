@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <link rel="icon" href="./images/horario.ico" type="image/ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/modal.css">
     <script src="./js/datos.js"></script>
     <script src="./js/pagina.js"></script>
     <script src="./js/cursos.js"></script>
@@ -31,6 +32,8 @@
                 <button onclick="cargarArchivoJSON()">Importar Cursos</button>
                 <br>
                 <button onclick="descargarDatos()"> Exportar Cursos </button>
+                <br>
+                <button onclick="abrirMenuImportar()"> Importar </button>
                 <br>
             </div>
         </div>
@@ -60,7 +63,7 @@
 
     <div class="overlay" id="miOverlay">
         <!-- Contenido del modal -->
-        <div class="modal" id="miModal">
+        <div class="modal" id="modalCarga">
             <h2>ARMANDO HORARIOS</h2>
             <p>Espere un momento, por favor</p>
             <div class="iconos">
@@ -74,6 +77,19 @@
                     <i class="fa fa-cog"></i>
                 </div>
             </div>
+        </div>
+        <div class="modal" id="modalImport">
+            <h2>IMPORTANDO HORARIOS</h2>
+            <p>Seleccione los cursos que desea importar</p>
+            <div id="lstimportcursos">
+
+            </div>
+            <div id="importbotones">
+                <div class="fila"> 
+                    <button class="celda" onclick="cerrarMenuImportar()">Cancelar</button>
+                    <button class="celda" onclick="importarSeleccion()">Importar Cursos</button>
+                </div>
+            </div>           
         </div>
     </div>
 

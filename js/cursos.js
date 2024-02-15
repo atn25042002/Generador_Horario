@@ -181,7 +181,7 @@ function generarHorarios(){
     //console.log(posibles);
     //console.log("generando horarios");
     let overlay = document.getElementById('miOverlay');
-    let modal = document.getElementById('miModal');
+    let modal = document.getElementById('modalCarga');
     console.log("Bloqueando");
     overlay.style.display = 'block';
     modal.style.display = 'block';
