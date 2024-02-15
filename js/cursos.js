@@ -27,9 +27,9 @@ class Turno{
 
 var cursos= []; // Contiene los cursos registrados 
 var posibles= []; // Guarda los posibles horarios [[1,2,3] ,[1,1,1]]
-//var restricciones= []; //Restricciones de turno  { 1 : [1,2] }
 var nrohorario= -1; //Nro de horario posible
-var max= 20; //Maximo de horarios
+var horaInicio= 0;
+var horaFinal= 18;
 
 function cargarCursos(){
     //Carga los cursos registrados con sus turnos
@@ -83,6 +83,11 @@ function cargarCursos(){
         fila.appendChild(lblprof);
         fila.appendChild(btneditar);
         fila.appendChild(btneliminar);
+        
+        if(!curso.obligatorio){
+            fila.style.color = '#888';
+            fila.title= 'Curso desactivado';
+        }
 
         lstcursos.appendChild(fila); // Añade la fila al div
         //lstcursos.append(document.createElement("br"));
@@ -163,17 +168,13 @@ function generarHorarios(){
     console.log("Bloqueando");
     overlay.style.display = 'block';
     modal.style.display = 'block';
+    let formHoras= document.getElementById("formHoras");
+    horaInicio= formHoras.horainicio.value;
+    horaFinal= formHoras.horafinal.value;
+    //console.log("Desde " + horaInicio + " hasta " + horaFinal);
 
-    let turnos= []; //Crea un arreglo donde se almacenara el numero de turnos disponibles por curso
-    cursos.forEach(function(curso){
-        //añade como elemento i al arreglo de turno el numero de turnos -1
-        //si esque hubiese tres turnos se agrega 2
-        turnos.push(curso.turnos.length - 1);
-    })
-    //crea un array con la misma longitud
-    let arregloGenerado = new Array(turnos.length);
     //inicia la funcion recursiva
-    setTimeout(function() {
+    //setTimeout(function() {
         turnosArray= [];
         horasSet= new Set();
         console.time('miFuncion');
@@ -193,7 +194,7 @@ function generarHorarios(){
         nrohorario++;
         lblnrohorario.textContent= 'Nro. Horario (máx. ' + posibles.length + ')';
         window.alert("Horario generados:  " + posibles.length + "\nMostrando el primer horario");
-    }, 1000);
+    //}, 1000);
     //carga el primer horario posible
 }
 
@@ -232,9 +233,9 @@ function hacerPermutaciones(turnos, setEntrada, indice){
             continue; //Pasa a la siguiente rama
         }
         //setHoras.union(new Set(cursos[indice].turnos[i].horas)); //Carga los elementos del Turno
-        setHorasTurno.forEach(elemento => {
+        /*setHorasTurno.forEach(elemento => {
             setHoras.add(elemento);
-        });
+        });*/
         nuevosTurnos.push(i); //Agrega el turno si no hay cruce
         hacerPermutaciones(nuevosTurnos, setHoras, indice + 1);
     }
@@ -246,6 +247,13 @@ function tieneCruce(set1, set2) {
     for (const elemento of set1) {
       if (set2.has(elemento)) {
         return true;
+      }else{
+        let r= Math.floor((elemento-1)/5);
+        if(horaInicio<= r && r<= horaFinal){
+            set2.add(elemento);
+        }else{
+            return true;
+        }
       }
     }  
     return false;  

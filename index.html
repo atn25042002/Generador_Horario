@@ -28,6 +28,34 @@
                 <br>
             </div>
             <div id="botones" class="cols">
+                <h3 class="subtitulo">OPCIONES</h3>
+                <form id="formHoras">
+                    <label for="horainicio">Hora inicio:</label>
+                    <select name="horainicio" id="horainicio">
+                        <option value="0" selected>7:00</option>
+                        <option value="1">7:50</option>
+                        <option value="2">8:50</option>
+                        <option value="3">9:40</option>
+                        <option value="4">10:40</option>
+                        <option value="5">11:30</option>
+                        <option value="6">12:20</option>
+                        <option value="7">1:10</option>
+                        <option value="8">2:00</option>
+                    </select>
+                    <br><br>
+                    <label for="horafinal">Hora final:</label>
+                    <select name="horafinal" id="horafinal">
+                        <option value="8">2:50</option>
+                        <option value="9">3:50</option>
+                        <option value="10">4:40</option>
+                        <option value="11">5:40</option>
+                        <option value="12">6:30</option>
+                        <option value="13">7:20</option>
+                        <option value="14">8:10</option>
+                        <option value="15" selected>9:00</option>
+                    </select>
+                    <br><br>
+                </form>                
                 <input type="file" id="jsonFileInput" accept=".json">
                 <button onclick="cargarArchivoJSON()">Importar Cursos</button>
                 <br>

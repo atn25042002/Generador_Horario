@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let url = new URL(window.location.href);
     let curso = url.searchParams.get("curso");
     let cursos= JSON.parse(localStorage.getItem('cursos'));
-    if( curso != undefined && curso < cursos.length && cursos >= 0){
+    if( curso != undefined && curso < cursos.length && curso >= 0){
         _indiceCurso= curso;
         editarCurso(curso);
         //document.getElementById("btnguardar").setAttribute('onclick',"actualizarCurso()")
