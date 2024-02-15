@@ -1,4 +1,5 @@
 var lstcheck= [];
+var lstcursosImport=[];
 
 document.addEventListener("DOMContentLoaded", function() {
     /*cursos.push(new Curso("Metodos Numéricos", ["306","306","306"], [[16,21,26],[43,48,53],[28,33,38]],["Olha","Olha","Olha"], true));
@@ -60,7 +61,9 @@ function abrirMenuImportar(lista){
     overlay.style.display = 'block';
     modal.style.display = 'block';
     let lstimportcursos= document.getElementById("lstimportcursos");
+    lstimportcursos.innerHTML= '';
     lstcheck= [];
+    lstcursosImport= [...lista];
     for(let i = 0; i< lista.length; i++){
         let fila= document.createElement('div');
         fila.setAttribute('class' , 'fila');
@@ -73,6 +76,7 @@ function abrirMenuImportar(lista){
         check.type= 'checkbox';
         check.name= lista[i].nombre;
         check.id= 'curso' + i;
+        check.checked= true;
         lstcheck.push(check);
         fila.appendChild(lbl);
         fila.appendChild(check);
@@ -88,9 +92,15 @@ function cerrarMenuImportar(){
 }
 
 function importarSeleccion(){
+    let input = document.getElementById('jsonFileInput');
     for(let i= 0; i< lstcheck.length; i++){
         if(lstcheck[i].checked){
-            console.log(lstcheck[i].name);
+            cursos.push(lstcursosImport[i])
         }
-    }
+    }                    
+    cargarCursos();
+    actualizar();
+    window.alert("Cursos cargados")
+    cerrarMenuImportar();
+    input.value = '';    
 }

@@ -199,6 +199,7 @@ function generarHorarios(){
         turnosArray= [];
         horasSet= new Set();
         console.time('miFuncion');
+        posibles=[];
         hacerPermutaciones(turnosArray,horasSet,0);
         console.timeEnd('miFuncion');
 
