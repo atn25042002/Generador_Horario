@@ -87,3 +87,11 @@ function importarSeleccion(){
     cerrarMenuImportar();
     input.value = '';    
 }
+
+function limpiarData(){
+    var confirmacion = confirm("¿Desea eliminar toda la Data?");
+    if (confirmacion) {
+        cursos=[];
+        navegar("./index.html");
+    }
+}
