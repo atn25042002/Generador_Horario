@@ -18,7 +18,7 @@ h3{
 button {
     display: table-cell;
     padding: 2px 5px;
-    background-color: #db3434;
+    background-color: #3c34db;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -31,12 +31,12 @@ button {
   
   /* Efecto al pasar el cursor por encima (hover) */
   button:hover {
-    background-color: #9f2424;
+    background-color: #24249f;
   }
   
   /* Efecto al presionar el botón (active) */
   button:active {
-    background-color: #951909;
+    background-color: #090e95;
   }
 
 

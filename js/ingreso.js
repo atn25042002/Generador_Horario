@@ -62,7 +62,7 @@ function editarCurso(indice){
     //Carga el formulario principal
     document.getElementById("tituloCurso").textContent= "EDITANDO " + curso.nombre.toUpperCase();
     formcurso.nombre.value= curso.nombre;
-    formcurso.obligatorio.checked= curso.obligatorio;
+    formcurso.activo.checked= curso.activo;
     CursoTurnos= [...curso.turnos];   
     horas= CursoTurnos[turnoactual].horas;
     let nturnos= CursoTurnos.length;
@@ -322,7 +322,7 @@ function recopilarCurso(){
             Crestricciones.push(i);
         }*/
     }
-    c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.obligatorio.checked);
+    c= new Curso(formcurso.nombre.value,nuevosTurnos,formcurso.activo.checked);
     c.turnos.forEach(t => {
         let horasLimpias= t.horas.filter((valor, indice, array) => {
             return array.indexOf(valor) === indice;

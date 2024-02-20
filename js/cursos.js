@@ -1,7 +1,7 @@
 //Manejo de Cursos
 
 class Curso{
-    constructor(nombre, turnos, obligatorio){
+    constructor(nombre, turnos, activo){
         if(nombre != undefined){
             this.nombre= nombre//Nombre del curso - string
         }
@@ -9,7 +9,7 @@ class Curso{
             this.turnos= turnos
         }
         if(nombre != undefined){
-            this.obligatorio= obligatorio// Si el curso es obligatorio - bool[]
+            this.activo= activo// Si el curso es activo - bool[]
         }
         //this.preferencias = [];
     }
@@ -84,7 +84,7 @@ function cargarCursos(){
         fila.appendChild(btneditar);
         fila.appendChild(btneliminar);
         
-        if(!curso.obligatorio){
+        if(!curso.activo){
             fila.style.color = '#888';
             fila.title= 'Curso desactivado';
         }
@@ -100,7 +100,7 @@ function llenarHorario(){
     let bloque;
     let i= 0;
     cursos.forEach(function(curso){
-        if(!curso.obligatorio){
+        if(!curso.activo){
             i++;
             return;
         }
@@ -216,7 +216,7 @@ function hacerPermutaciones(turnos, setEntrada, indice){
         return;
     }
 
-    if(!cursos[indice].obligatorio){
+    if(!cursos[indice].activo){
         setHoras= new Set(setEntrada); // Crea una copia del set de Entrada
         nuevosTurnos= [...turnos];
         nuevosTurnos.push(0);
