@@ -1,3 +1,7 @@
+*{
+    font-family: 'Verdana', sans-serif;
+}
+
 .titulo{
     margin: 0 0 0 0;
 }
@@ -43,11 +47,6 @@ button {
 
 select{
     align-items: end;
-}
-
-table {
-    font-size: 11px;
-    font-family: Consolas,monospace;
 }
 
 th, td {
@@ -143,4 +142,9 @@ input[type="number"] {
 
 #botones{
     align-items: center;
+}
+
+#horarioTable {
+    font-size: 11px;
+    font-family: 'Consolas', monospace;
 }
