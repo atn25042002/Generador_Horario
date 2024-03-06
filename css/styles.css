@@ -148,3 +148,15 @@ input[type="number"] {
     font-size: 11px;
     font-family: 'Consolas', monospace;
 }
+
+#imgHelp{
+    width: 40px;
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    transition: transform 0.3s; /* Agregamos una transición para suavizar el efecto */
+}
+
+#imgHelp:hover {
+    transform: scale(1.2); /* Escala la imagen al 120% al pasar el ratón sobre ella */
+}
